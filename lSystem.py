@@ -10,9 +10,6 @@ def main():
     iterations = getIterations()
     configTuple = readConfigFile(configFilename)
     generateLSystem(configTuple, iterations)
-    
-    
-    
 
 def getConfigFilename():
     """
@@ -47,7 +44,6 @@ def getConfigFilename():
     
     return configFilename
 
-
 def getIterations():
     """
     function that ask the user for the amount of iterations that will be made.
@@ -75,7 +71,6 @@ def getIterations():
      
     return userInput 
     
-
 def readConfigFile(configFilename):
     """
     function that gets all the info out of the config file
@@ -99,22 +94,33 @@ def readConfigFile(configFilename):
         
     axiom = getAxiomFromConfig(config)
     
-    constants, translations = getConstantsTranslationsFromConfig(config)
+    constants = getConstantsFromConfig(config)
+    
+    translations = getTranslationsFromConfig(config)
     
     variables = getVariablesFromConfig(config)
     
-    #TODO check rules
     rules = getRulesFromConfig(config)
     
     checkVariablesConstantsAxiom(variables, constants, axiom)
+    #TODO check if value's are correct
+    checkRulesTranslations(rules, translations)
+    
     
     return variables, constants, axiom, rules, translations
     
+def checkRulesTranslations(rules, translations):
+    if len(rules) == 0:
+        print("Config error: rules are empty.")
+        
+    if len(translations) == 0:
+        print("Config error: translations are empty.")
     
 def checkVariablesConstantsAxiom(variables, constants, axiom):
     """
     function that does some checks to see if variables constants & axiom are:
-        Not empty & axiom does not contain undefined characters
+        Not empty 
+        Axiom does not contain undefined characters
 
     Parameters
     ----------
@@ -141,7 +147,7 @@ def checkVariablesConstantsAxiom(variables, constants, axiom):
                 break
             else:
                 exit(0)
-                
+            
 def getAxiomFromConfig(config):
     """
     Get axiom from config if it exists
@@ -163,9 +169,10 @@ def getAxiomFromConfig(config):
         exit(0) 
     return axiom
 
-def getConstantsTranslationsFromConfig(config):
+def getConstantsFromConfig(config):
     """
-    gets constants and translations or nothing if there are no constants
+    gets constants from config if it exists
+    if no constants exist it returns an empty list
 
     Parameters
     ----------
@@ -174,25 +181,42 @@ def getConstantsTranslationsFromConfig(config):
 
     Returns
     -------
-    tuple
-        list, dict
+    list
+        list of constans
         returns a tuple of
         constants, translations
         
     """
-    constants = []
-    translations = dict()
+    
     try: 
         constants = list(config["constants"])
-        try:
-            translations = dict(config["translations"])
-            translations = dict((k, v.lower()) for k,v in translations.items())            
-        except KeyError:
-            print("Config error: constants where given but no translations.")
-            exit(0)
     except KeyError:
-        pass
-    return constants, translations
+        constants = []
+    return constants
+
+def getTranslationsFromConfig(config):
+    """
+    gets constants from config if it exists
+
+    Parameters
+    ----------
+    config : dict
+        config json file opened with json.load
+
+    Returns
+    -------
+    dict
+        dict of translations        
+    """
+    
+    try:
+        translations = dict(config["translations"])
+        translations = dict((k, v.lower()) for k,v in translations.items())            
+    except KeyError:
+        print("Config error: no translations were found.")
+        exit(0)
+        
+    return  translations
 
 def getVariablesFromConfig(config):
     """
@@ -246,8 +270,7 @@ def getRulesFromConfig(config):
         return angle
     else:
         print("problem with config file: angle", angle, "not between -360 and 360") """
-    
-    
+      
 def generateLSystem(configTuple, iterations):
     """
     generates a basic l system from the config for a certain amount of iterations
@@ -283,7 +306,16 @@ def generateLSystem(configTuple, iterations):
         
         print(i+1, currentString)
         
+        #TODO
+        turtleInstructionsPrint(currentString, translations)
+        
+def turtleInstructionsPrint(currentString, translations):
+    print(42*"-")
     
+    for chara in currentString:
+        print(chara, "  ", translations[chara])
+        
+    print(42*"=")
 
     
     
