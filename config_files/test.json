@@ -1,18 +1,23 @@
 {
-    "variables": ["A", "B", "C"],
-    "constants": ["+", "-"],
+    "variables": ["A", "B", "C", "D","E"],
+    "constants": ["+", "-", "[", "]"],
     "axiom": "A",
     "rules": {
-        "A": "B",
+        "A": "BD",
         "B": "a-C",
-        "C": "C+A"
+        "C": "C+A",
+        "D": "[CE",
+        "E": "]"
 	},
 	"translations" : {
-        "A": "move 1",
-        "B": "draw 2",
-        "C": "draw -1",
-        "+": "Angle 25",
-        "-": "angle -25"
+        "A": ["move", 1],
+        "B": ["draw", 2],
+        "C": ["draw", -1],
+        "D": ["nop"],
+        "E": ["nop"],
+        "+": ["Angle", 25],
+        "-": ["angle", -25],
+        "[": ["push"],
+        "]": ["pop"]
 	}
-
 }

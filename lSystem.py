@@ -1,7 +1,7 @@
 #for reading config file
 import json
 #for drawing l-system
-#import turtle
+import turtle
 #for checking if config file exists
 import os
 
@@ -22,7 +22,13 @@ def getConfigFilename():
     """
     userInput = input("Enter config file name: ")
     
-    if os.path.exists("./config_files/" + userInput):
+    checkIfCacheExists()
+    
+    if userInput == "":
+        configFilename = getFromCache("lastUsedConfigFile")
+        print("Using config file at", configFilename)
+    
+    elif os.path.exists("./config_files/" + userInput):
         configFilename = os.path.abspath("./config_files/" + userInput)
         print("Using config file at", configFilename)
         
@@ -41,7 +47,9 @@ def getConfigFilename():
     else:
         print("Config file not found, please check it is placed in the 'config_file' folder.")
         exit(0)
-    
+        
+    storeInCache("lastUsedConfigFile", configFilename)
+
     return configFilename
 
 def getIterations():
@@ -56,21 +64,82 @@ def getIterations():
     """
         
     while True:
-        try:
-            userInput = int(input("Enter the amount of iterations: "))
-        except:
-            print("Not an integer, iterations must be a positive integer.")
-            exit(0)
-        
-        if (userInput > 0):
-            break
+        userInput = input("Enter the amount of iterations: ")
+        if userInput != "":
+            try:
+                userInput = int(userInput)
+            except:
+                print("Not an integer, iterations must be a positive integer.")
+                exit(0)
+            
+            if (userInput > 0):
+                break
+            else:
+                print("Iterations needs to be bigger than zero.")
         else:
-            print("Iterations needs to be bigger than zero.")
+            userInput = getFromCache("lastUsedIterations")
+            break
+            
+    storeInCache("lastUsedIterations", userInput)
         
     print(userInput, "iteration(s) will be made.")  
      
     return userInput 
     
+def storeInCache(itemName, value):
+    """
+    Function that stores something in cache:
+
+    Parameters
+    ----------
+    itemName : str
+        name of the key of the value you want to store
+    value : any
+        what you want to store
+    """
+    with open("cache.json", "r") as cacheFile:
+        cache = json.load(cacheFile)
+        cacheFile.close()
+    with open("cache.json", "w") as cacheFile:
+        cache[itemName] = value
+        json.dump(cache, cacheFile)
+        cacheFile.close()
+        
+def getFromCache(itemName):
+    """
+    get some value from cache
+
+    Parameters
+    ----------
+    itemName : str
+        name of the key of the value you want to get
+
+    Returns
+    -------
+    any
+        the value with key itemName
+    """
+    with open("cache.json") as cacheFile:
+        cache = json.load(cacheFile)
+        if itemName in cache.keys():
+            response = cache[itemName]
+            cacheFile.close()
+            
+        else:
+            print("This has not been cached yet.")
+            exit(0)
+    return response
+    
+def checkIfCacheExists():
+    """
+    function that checks of the cache file exists;
+    if it does not exist, it makes one
+    """
+    if os.path.exists("cache.json") == False:
+        cacheFile = open("cache.json", "w")
+        cacheFile.write(str(dict()))
+        cacheFile.close()
+
 def readConfigFile(configFilename):
     """
     function that gets all the info out of the config file
@@ -103,7 +172,6 @@ def readConfigFile(configFilename):
     rules = getRulesFromConfig(config)
     
     checkVariablesConstantsAxiom(variables, constants, axiom)
-    #TODO check if value's are correct
     checkRulesTranslations(rules, translations)
     
     
@@ -211,7 +279,9 @@ def getTranslationsFromConfig(config):
     
     try:
         translations = dict(config["translations"])
-        translations = dict((k, v.lower()) for k,v in translations.items())            
+        translations = dict((k, [x if type(x) != str else x.lower() for x in v]) for k,v in translations.items())    
+        
+        #item.lower() for item in v if type(item) == str         
     except KeyError:
         print("Config error: no translations were found.")
         exit(0)
