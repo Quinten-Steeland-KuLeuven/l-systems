@@ -358,6 +358,7 @@ def generateLSystem(configTuple, iterations):
     currentString = axiom 
 
     print("0", currentString)
+    turtleInstructionsPrint(currentString, translations)
 
     for i in range(iterations):
         newList = []
