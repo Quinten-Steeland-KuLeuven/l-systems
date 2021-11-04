@@ -1,7 +1,7 @@
 #for reading config file
 import json
 #for drawing l-system
-#import turtle
+import turtle
 #for checking if config file exists
 import os
 
@@ -10,9 +10,6 @@ def main():
     iterations = getIterations()
     configTuple = readConfigFile(configFilename)
     generateLSystem(configTuple, iterations)
-    
-    
-    
 
 def getConfigFilename():
     """
@@ -25,7 +22,13 @@ def getConfigFilename():
     """
     userInput = input("Enter config file name: ")
     
-    if os.path.exists("./config_files/" + userInput):
+    checkIfCacheExists()
+    
+    if userInput == "":
+        configFilename = getFromCache("lastUsedConfigFile")
+        print("Using config file at", configFilename)
+    
+    elif os.path.exists("./config_files/" + userInput):
         configFilename = os.path.abspath("./config_files/" + userInput)
         print("Using config file at", configFilename)
         
@@ -44,9 +47,10 @@ def getConfigFilename():
     else:
         print("Config file not found, please check it is placed in the 'config_file' folder.")
         exit(0)
-    
-    return configFilename
+        
+    storeInCache("lastUsedConfigFile", configFilename)
 
+    return configFilename
 
 def getIterations():
     """
@@ -60,21 +64,81 @@ def getIterations():
     """
         
     while True:
-        try:
-            userInput = int(input("Enter the amount of iterations: "))
-        except:
-            print("Not an integer, iterations must be a positive integer.")
-            exit(0)
-        
-        if (userInput > 0):
-            break
+        userInput = input("Enter the amount of iterations: ")
+        if userInput != "":
+            try:
+                userInput = int(userInput)
+            except:
+                print("Not an integer, iterations must be a positive integer.")
+                exit(0)
+            
+            if (userInput > 0):
+                break
+            else:
+                print("Iterations needs to be bigger than zero.")
         else:
-            print("Iterations needs to be bigger than zero.")
+            userInput = getFromCache("lastUsedIterations")
+            break
+            
+    storeInCache("lastUsedIterations", userInput)
         
     print(userInput, "iteration(s) will be made.")  
      
     return userInput 
     
+def storeInCache(itemName, value):
+    """
+    Function that stores something in cache:
+
+    Parameters
+    ----------
+    itemName : str
+        name of the key of the value you want to store
+    value : any
+        what you want to store
+    """
+    with open("cache.json", "r") as cacheFile:
+        cache = json.load(cacheFile)
+        cacheFile.close()
+    with open("cache.json", "w") as cacheFile:
+        cache[itemName] = value
+        json.dump(cache, cacheFile)
+        cacheFile.close()
+        
+def getFromCache(itemName):
+    """
+    get some value from cache
+
+    Parameters
+    ----------
+    itemName : str
+        name of the key of the value you want to get
+
+    Returns
+    -------
+    any
+        the value with key itemName
+    """
+    with open("cache.json") as cacheFile:
+        cache = json.load(cacheFile)
+        if itemName in cache.keys():
+            response = cache[itemName]
+            cacheFile.close()
+            
+        else:
+            print("This has not been cached yet.")
+            exit(0)
+    return response
+    
+def checkIfCacheExists():
+    """
+    function that checks of the cache file exists;
+    if it does not exist, it makes one
+    """
+    if os.path.exists("cache.json") == False:
+        cacheFile = open("cache.json", "w")
+        cacheFile.write(str(dict()))
+        cacheFile.close()
 
 def readConfigFile(configFilename):
     """
@@ -99,22 +163,32 @@ def readConfigFile(configFilename):
         
     axiom = getAxiomFromConfig(config)
     
-    constants, translations = getConstantsTranslationsFromConfig(config)
+    constants = getConstantsFromConfig(config)
+    
+    translations = getTranslationsFromConfig(config)
     
     variables = getVariablesFromConfig(config)
     
-    #TODO check rules
     rules = getRulesFromConfig(config)
     
     checkVariablesConstantsAxiom(variables, constants, axiom)
+    checkRulesTranslations(rules, translations)
+    
     
     return variables, constants, axiom, rules, translations
     
+def checkRulesTranslations(rules, translations):
+    if len(rules) == 0:
+        print("Config error: rules are empty.")
+        
+    if len(translations) == 0:
+        print("Config error: translations are empty.")
     
 def checkVariablesConstantsAxiom(variables, constants, axiom):
     """
     function that does some checks to see if variables constants & axiom are:
-        Not empty & axiom does not contain undefined characters
+        Not empty 
+        Axiom does not contain undefined characters
 
     Parameters
     ----------
@@ -141,7 +215,7 @@ def checkVariablesConstantsAxiom(variables, constants, axiom):
                 break
             else:
                 exit(0)
-                
+            
 def getAxiomFromConfig(config):
     """
     Get axiom from config if it exists
@@ -163,9 +237,10 @@ def getAxiomFromConfig(config):
         exit(0) 
     return axiom
 
-def getConstantsTranslationsFromConfig(config):
+def getConstantsFromConfig(config):
     """
-    gets constants and translations or nothing if there are no constants
+    gets constants from config if it exists
+    if no constants exist it returns an empty list
 
     Parameters
     ----------
@@ -174,25 +249,44 @@ def getConstantsTranslationsFromConfig(config):
 
     Returns
     -------
-    tuple
-        list, dict
+    list
+        list of constans
         returns a tuple of
         constants, translations
         
     """
-    constants = []
-    translations = dict()
+    
     try: 
         constants = list(config["constants"])
-        try:
-            translations = dict(config["translations"])
-            translations = dict((k, v.lower()) for k,v in translations.items())            
-        except KeyError:
-            print("Config error: constants where given but no translations.")
-            exit(0)
     except KeyError:
-        pass
-    return constants, translations
+        constants = []
+    return constants
+
+def getTranslationsFromConfig(config):
+    """
+    gets constants from config if it exists
+
+    Parameters
+    ----------
+    config : dict
+        config json file opened with json.load
+
+    Returns
+    -------
+    dict
+        dict of translations        
+    """
+    
+    try:
+        translations = dict(config["translations"])
+        translations = dict((k, [x if type(x) != str else x.lower() for x in v]) for k,v in translations.items())    
+        
+        #item.lower() for item in v if type(item) == str         
+    except KeyError:
+        print("Config error: no translations were found.")
+        exit(0)
+        
+    return  translations
 
 def getVariablesFromConfig(config):
     """
@@ -246,8 +340,7 @@ def getRulesFromConfig(config):
         return angle
     else:
         print("problem with config file: angle", angle, "not between -360 and 360") """
-    
-    
+      
 def generateLSystem(configTuple, iterations):
     """
     generates a basic l system from the config for a certain amount of iterations
@@ -265,6 +358,7 @@ def generateLSystem(configTuple, iterations):
     currentString = axiom 
 
     print("0", currentString)
+    turtleInstructionsPrint(currentString, translations)
 
     for i in range(iterations):
         newList = []
@@ -283,7 +377,16 @@ def generateLSystem(configTuple, iterations):
         
         print(i+1, currentString)
         
+        #TODO
+        turtleInstructionsPrint(currentString, translations)
+        
+def turtleInstructionsPrint(currentString, translations):
+    print(42*"-")
     
+    for chara in currentString:
+        print(chara, "  ", translations[chara])
+        
+    print(42*"=")
 
     
     
