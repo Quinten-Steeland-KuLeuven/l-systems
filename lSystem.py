@@ -414,8 +414,12 @@ def turtleInstructions(screen, turt, currentString, translations):
                 
         else:
             print(translations[chara][0])
-            #if
-            
+            if translations[chara][0] == "nop":
+                None
+            elif translations[chara][0] == "push":
+                trutlePush(screen, turt)
+            elif translations[chara][0] == "pop":
+                trutlePop(screen, turt)
     print(42*"=")
 
 def turtleInitiate(maxScreenSize):
@@ -440,6 +444,18 @@ def trutleMove(screen, turt, distance):
 
 def trutleColor(screen, turt, color):
     turt.pencolor(color)
+
+
+def turtlePush(screen, turt):
+    global storage
+    try: storage += [[turt.pos(), turt.heading(), turt.color()[1]]]
+    except: storage = [[turt.pos(), turt.heading(), turt.color()[1]]]
+
+def turtlePop(scree, turt):
+    turt.penup()
+    turt.goto(storage[-1][0])
+    turt.setheading(storage[-1][1])
+    turt.pencolor(storage[-1][2])
 
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
