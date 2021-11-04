@@ -9,8 +9,9 @@ def main():
     configFilename = getConfigFilename()
     iterations = getIterations()
     configTuple = readConfigFile(configFilename)
-    generateLSystem(configTuple, iterations)
-
+    lSystem = generateLSystem(configTuple, iterations)
+    runTurtle(lSystem, configTuple[4])
+    
 def getConfigFilename():
     """
     function that ask user for name of config file and checks if the file exists
@@ -333,6 +334,7 @@ def getRulesFromConfig(config):
     rules = dict((k.upper(), v.upper()) for k,v in rules.items())
     return rules
 
+#TODO to use or not to use
 #TODO this is/was for the checks of the translations
 """ def checkAngle(angle):
     
@@ -352,19 +354,15 @@ def generateLSystem(configTuple, iterations):
                   variables, constants, axiom, rules, translations
     iterations : int
         amount of iterations that need to be made
+        
+    Returns
+    -------
+    str
+        full string of the l-system after all iterations
     """
-    variables, constants, axiom, rules, translations = configTuple[0], configTuple[1], configTuple[2], configTuple[3], configTuple[4], 
-
+    variables, constants, axiom, rules, translations = configTuple[0], configTuple[1], configTuple[2], configTuple[3], configTuple[4]
     currentString = axiom 
     
-    #maxScreenSize = getMaxScreenSize(translations, iterations)
-    maxScreenSize = 19200*2
-    screen, turt = turtleInitiate(maxScreenSize)
-
-    print("0", currentString)
-    
-    #turtleInstructions(screen, turt, currentString, translations)
-
     for i in range(iterations):
         newList = []
         
@@ -380,31 +378,51 @@ def generateLSystem(configTuple, iterations):
             
         currentString = ''.join(newList)
         
-        print(i+1, currentString)
-        
-        #TODO
-    turtleInstructions(screen, turt, currentString, translations)
-        
-    input("Enter to continu")
-        
-def turtleInstructionsPrint(currentString, translations):
-    print(42*"-")
+    return currentString
     
-    for chara in currentString:
-        print(chara, "  ", translations[chara])
-        
-    print(42*"=")
+def runTurtle(lSystem, translations):
+    """
+    Function that sets up the turtle and then calls another function that runs the turle drawing for a given lSystem
 
-def turtleInstructions(screen, turt, currentString, translations):
-    print(screen, turt)
+    Parameters
+    ----------
+    lSystem : str
+        string of an lSystem
+    translations : dict
+        dict of translations
+    """
+    #TODO to use or not to use
+    #maxScreenSize = getMaxScreenSize(translations, iterations)
+    maxScreenSize = 19200*2
+    screen, turt = turtleInitiate(maxScreenSize)
+    
+    turtleRunInstructions(screen, turt, lSystem, translations)
+
+def turtleRunInstructions(screen, turt, lSystem, translations):
+    """
+    This function runs the turtle to draw an lSystem
+
+    Parameters
+    ----------
+    screen : 
+        turtle screen
+    turt : 
+        turtle
+    lSystem : str
+        string of an lSystem
+    translations : dict
+        dict of translations
+    """
+    print("iterating over string:", lSystem)
     
     print(42*"-")
     
-    for chara in currentString:
+    for chara in lSystem:
         i = 0
+        
         while i < len(translations[chara]):
             if translations[chara][i] in ["angle", "draw", "forward", "color"]:
-                print(translations[chara][i], " + ", translations[chara][i+1])
+                print(translations[chara][i], " + ", translations[chara][i+1],end="; ")
                 if translations[chara][i] == "angle":
                     turtleAngle(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "draw":
@@ -415,38 +433,98 @@ def turtleInstructions(screen, turt, currentString, translations):
                     turtleColor(screen, turt, translations[chara][i+1])
                 i += 2
             else:
-                print(translations[chara][i])
+                print(translations[chara][i],end="; ")
                 if translations[chara][i] == "push":
                     turtlePush(screen, turt)
                 elif translations[chara][i] == "pop":
                     turtlePop(screen, turt)
                 i += 1
-                
+        
+        print("")
+               
     print(42*"=")
 
-def turtleInitiate(maxScreenSize):
-    print(maxScreenSize)
-    turtle.screensize(canvwidth=maxScreenSize, canvheight=maxScreenSize)
+def turtleInitiate(screenSize):
+    """
+    creates a turtle window, sets it's canvas size and spawns a turtle
+
+    Parameters
+    ----------
+    screenSize : int
+        this is used to set the canvas height and width
+
+    Returns
+    -------
+    tuple
+        screen, turt
+        the turtle screen, the turtle itself
+    """
+    turtle.screensize(canvwidth=screenSize, canvheight=screenSize)
     screen = turtle.getscreen()
-    
     turt = turtle.Turtle()
-    print(screen.screensize())
     return screen, turt
 
 def turtleAngle(screen,turt,angle):
+    """
+    Changes angle of turtle, positive angle is a left turn
+
+    Parameters
+    ----------
+    screen : 
+        turtle screen
+    turt : 
+        turtle
+    angle : float
+        the angle it needs to turn, positive is a left turn
+    """
     turt.lt(angle)
 
 def turtleDraw(screen, turt, distance):
+    """
+    Draws a line with the turtle, positive distance is forward
+
+    Parameters
+    ----------
+    screen : 
+        turtle screen
+    turt : 
+        turtle
+    distance : float
+        The lenght of the line it needs to draw
+    """
     turt.fd(distance)
 
 def turtleMove(screen, turt, distance):
+    """
+    Moves the turle forward without drawing a line
+
+    Parameters
+    ----------
+    screen : 
+        turtle screen
+    turt : 
+        turtle
+    distance : float
+        The distance it needs to move
+    """
     turt.up
     turt.fd(distance)
     turt.down
 
 def turtleColor(screen, turt, color):
-    turt.pencolor(color)
+    """
+    Changes the draw color of the turle
 
+    Parameters
+    ----------
+    screen : 
+        turtle screen
+    turt : 
+        turtle
+    color : str [english color name OR #hex color code with a #]
+        color for the turtle
+    """
+    turt.pencolor(color)
 
 def turtlePush(screen, turt):
     global storage
@@ -458,7 +536,10 @@ def turtlePop(scree, turt):
     turt.goto(storage[-1][0])
     turt.setheading(storage[-1][1])
     turt.pencolor(storage[-1][2])
+    storage.pop(-1)
     turt.pendown()
+    
+#TODO to use or not to use
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
     largest = 10
