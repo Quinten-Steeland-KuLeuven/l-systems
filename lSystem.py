@@ -4,14 +4,17 @@ import json
 import turtle
 #for checking if config file exists
 import os
+#for timestamp in historyfile
+import time
+
 
 def main():
     configFilename = getConfigFilename()
     iterations = getIterations()
     configTuple = readConfigFile(configFilename)
     lSystem = generateLSystem(configTuple, iterations)
-    runTurtle(lSystem, configTuple[4])
-    
+    # runTurtle(lSystem, configTuple[4])
+    addHistory(configTuple, iterations, lSystem)
 def getConfigFilename():
     """
     function that ask user for name of config file and checks if the file exists
@@ -464,6 +467,7 @@ def turtleInitiate(screenSize):
     turtle.screensize(canvwidth=screenSize, canvheight=screenSize)
     screen = turtle.getscreen()
     turt = turtle.Turtle()
+    turt.speed(0)
     return screen, turt
 
 def turtleAngle(screen,turt,angle):
@@ -551,5 +555,16 @@ def turtlePop(scree, turt):
             largest = max(largest, (2*(item[1]**((iterations+item[1]/iterations)/item[1]))) )
     
     return largest """
+
+
+def addHistory(configtuple, iterations, lSystem):
+    historyfile = open("History.txt", "a")
+    line = "\n" + time.asctime() + "\t"
+    for elem in configtuple:
+        line += str(elem) + "\t"
+    line += str(iterations) + "\t" + lSystem
+    historyfile.write(line)
+
+
 
 main()
