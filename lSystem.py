@@ -363,7 +363,7 @@ def generateLSystem(configTuple, iterations):
 
     print("0", currentString)
     
-    turtleInstructions(screen, turt, currentString, translations)
+    #turtleInstructions(screen, turt, currentString, translations)
 
     for i in range(iterations):
         newList = []
@@ -383,7 +383,7 @@ def generateLSystem(configTuple, iterations):
         print(i+1, currentString)
         
         #TODO
-        turtleInstructions(screen, turt, currentString, translations)
+    turtleInstructions(screen, turt, currentString, translations)
         
     input("Enter to continu")
         
