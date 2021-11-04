@@ -1,0 +1,15 @@
+{
+    "variables": ["Z","O"],
+    "constants": ["[", "]"],
+    "axiom": "Z",
+    "rules": {
+        "Z": "O[Z]Z",
+        "O": "OO"
+	},
+	"translations" : {
+        "O": ["draw", 10],
+        "Z": ["draw", 10],
+        "[": ["push", "angle", 45],
+        "]": ["pop", "angle", -45]
+	}
+}

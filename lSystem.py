@@ -401,20 +401,23 @@ def turtleInstructions(screen, turt, currentString, translations):
     print(42*"-")
     
     for chara in currentString:
-        if translations[chara][0] in ["angle", "draw", "forward", "color"]:
-            print(translations[chara][0], " + ", translations[chara][1])
-            if translations[chara][0] == "angle":
-                turtleAngle(screen, turt, translations[chara][1])
-            elif translations[chara][0] == "draw":
-                trutleDraw(screen, turt, translations[chara][1])
-            elif translations[chara][0] == "forward":
-                trutleForward(screen, turt, translations[chara][1])
-            elif translations[chara][0] == "color":
-                trutleColor(screen, turt, translations[chara][1])
-                
-        else:
-            print(translations[chara][0])
-            #if
+        i = 0
+        while i < len(translations[chara]):
+            if translations[chara][i] in ["angle", "draw", "forward", "color"]:
+                print(translations[chara][i], " + ", translations[chara][i+1])
+                if translations[chara][i] == "angle":
+                    turtleAngle(screen, turt, translations[chara][i+1])
+                elif translations[chara][i] == "draw":
+                    trutleDraw(screen, turt, translations[chara][i+1])
+                elif translations[chara][i] == "forward":
+                    trutleForward(screen, turt, translations[chara][i+1])
+                elif translations[chara][i] == "color":
+                    trutleColor(screen, turt, translations[chara][i+1])
+                i += 2
+            else:
+                print(translations[chara][i])
+                i += 1
+            
             
     print(42*"=")
 
