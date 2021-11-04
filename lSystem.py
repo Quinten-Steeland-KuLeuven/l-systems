@@ -408,18 +408,18 @@ def turtleInstructions(screen, turt, currentString, translations):
                 if translations[chara][i] == "angle":
                     turtleAngle(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "draw":
-                    trutleDraw(screen, turt, translations[chara][i+1])
+                    turtleDraw(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "forward":
-                    trutleForward(screen, turt, translations[chara][i+1])
+                    turtleForward(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "color":
-                    trutleColor(screen, turt, translations[chara][i+1])
+                    turtleColor(screen, turt, translations[chara][i+1])
                 i += 2
             else:
                 print(translations[chara][i])
                 if translations[chara][i] == "push":
-                    trutlePush(screen, turt)
+                    turtlePush(screen, turt)
                 elif translations[chara][i] == "pop":
-                    trutlePop(screen, turt)
+                    turtlePop(screen, turt)
                 i += 1
                 
     print(42*"=")
@@ -436,15 +436,15 @@ def turtleInitiate(maxScreenSize):
 def turtleAngle(screen,turt,angle):
     turt.lt(angle)
 
-def trutleDraw(screen, turt, distance):
+def turtleDraw(screen, turt, distance):
     turt.fd(distance)
 
-def trutleMove(screen, turt, distance):
+def turtleMove(screen, turt, distance):
     turt.up
     turt.fd(distance)
     turt.down
 
-def trutleColor(screen, turt, color):
+def turtleColor(screen, turt, color):
     turt.pencolor(color)
 
 
