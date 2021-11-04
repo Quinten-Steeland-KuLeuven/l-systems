@@ -456,7 +456,7 @@ def turtlePop(scree, turt):
     turt.goto(storage[-1][0])
     turt.setheading(storage[-1][1])
     turt.pencolor(storage[-1][2])
-
+    turt.pendown()
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
     largest = 10
