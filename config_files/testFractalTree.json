@@ -7,8 +7,8 @@
         "O": "OO"
 	},
 	"translations" : {
-        "O": ["draw", 10],
-        "Z": ["draw", 10],
+        "O": ["draw", 10, "color", "blue"],
+        "Z": ["draw", 10, "color", "red"],
         "[": ["push", "angle", 45],
         "]": ["pop", "angle", -45]
 	}

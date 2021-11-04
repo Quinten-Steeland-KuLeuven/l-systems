@@ -397,6 +397,8 @@ def runTurtle(lSystem, translations):
     screen, turt = turtleInitiate(maxScreenSize)
     
     turtleRunInstructions(screen, turt, lSystem, translations)
+    
+    input("press enter to continue... ")
 
 def turtleRunInstructions(screen, turt, lSystem, translations):
     """
