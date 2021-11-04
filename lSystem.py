@@ -356,9 +356,14 @@ def generateLSystem(configTuple, iterations):
     variables, constants, axiom, rules, translations = configTuple[0], configTuple[1], configTuple[2], configTuple[3], configTuple[4], 
 
     currentString = axiom 
+    
+    #maxScreenSize = getMaxScreenSize(translations, iterations)
+    maxScreenSize = 19200*2
+    screen, turt = turtleInitiate(maxScreenSize)
 
     print("0", currentString)
-    turtleInstructionsPrint(currentString, translations)
+    
+    turtleInstructions(screen, turt, currentString, translations)
 
     for i in range(iterations):
         newList = []
@@ -378,7 +383,9 @@ def generateLSystem(configTuple, iterations):
         print(i+1, currentString)
         
         #TODO
-        turtleInstructionsPrint(currentString, translations)
+        turtleInstructions(screen, turt, currentString, translations)
+        
+    input("Enter to continu")
         
 def turtleInstructionsPrint(currentString, translations):
     print(42*"-")
@@ -388,9 +395,60 @@ def turtleInstructionsPrint(currentString, translations):
         
     print(42*"=")
 
+def turtleInstructions(screen, turt, currentString, translations):
+    print(screen, turt)
     
+    print(42*"-")
     
+    for chara in currentString:
+        if translations[chara][0] in ["angle", "draw", "forward", "color"]:
+            print(translations[chara][0], " + ", translations[chara][1])
+            if translations[chara][0] == "angle":
+                turtleAngle(screen, turt, translations[chara][1])
+            elif translations[chara][0] == "draw":
+                trutleDraw(screen, turt, translations[chara][1])
+            elif translations[chara][0] == "forward":
+                trutleForward(screen, turt, translations[chara][1])
+            elif translations[chara][0] == "color":
+                trutleColor(screen, turt, translations[chara][1])
+                
+        else:
+            print(translations[chara][0])
+            #if
+            
+    print(42*"=")
 
+def turtleInitiate(maxScreenSize):
+    print(maxScreenSize)
+    turtle.screensize(canvwidth=maxScreenSize, canvheight=maxScreenSize)
+    screen = turtle.getscreen()
+    
+    turt = turtle.Turtle()
+    print(screen.screensize())
+    return screen, turt
 
+def turtleAngle(screen,turt,angle):
+    turt.lt(angle)
+
+def trutleDraw(screen, turt, distance):
+    turt.fd(distance)
+
+def trutleMove(screen, turt, distance):
+    turt.up
+    turt.fd(distance)
+    turt.down
+
+def trutleColor(screen, turt, color):
+    turt.pencolor(color)
+
+#bad attempt at getting max screen size
+""" def getMaxScreenSize(translations, iterations):
+    largest = 10
+    for item in translations.values():
+        
+        if item[0] == "draw":
+            largest = max(largest, (2*(item[1]**((iterations+item[1]/iterations)/item[1]))) )
+    
+    return largest """
 
 main()
