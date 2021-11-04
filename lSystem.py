@@ -402,9 +402,10 @@ def turtleInstructions(screen, turt, currentString, translations):
     
     for chara in currentString:
         i = 0
+        
         while i < len(translations[chara]):
             if translations[chara][i] in ["angle", "draw", "forward", "color"]:
-                print(translations[chara][i], " + ", translations[chara][i+1])
+                print(translations[chara][i], " + ", translations[chara][i+1],end="; ")
                 if translations[chara][i] == "angle":
                     turtleAngle(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "draw":
@@ -415,13 +416,15 @@ def turtleInstructions(screen, turt, currentString, translations):
                     turtleColor(screen, turt, translations[chara][i+1])
                 i += 2
             else:
-                print(translations[chara][i])
+                print(translations[chara][i],end="; ")
                 if translations[chara][i] == "push":
                     turtlePush(screen, turt)
                 elif translations[chara][i] == "pop":
                     turtlePop(screen, turt)
                 i += 1
-                
+        
+        print("")
+               
     print(42*"=")
 
 def turtleInitiate(maxScreenSize):
