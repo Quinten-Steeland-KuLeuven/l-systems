@@ -559,7 +559,6 @@ def turtlePop(scree, turt):
             turtle screen
         turt :
             turtle
-
         """
     turt.penup()
     turt.goto(storage[-1][0])
