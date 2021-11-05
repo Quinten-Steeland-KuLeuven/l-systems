@@ -133,3 +133,7 @@ dmypy.json
 
 # cache document with repository location
 cache.json
+
+#History file
+cache.json
+History.txt
