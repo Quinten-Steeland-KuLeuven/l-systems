@@ -580,6 +580,20 @@ def turtlePop(scree, turt):
 
 
 def addHistory(configtuple, iterations, lSystem):
+    """
+        saves the data to a new line in the History.txt
+        data = timing, variables, constants, axiom, rules, translations, iterations and result-string
+       Parameters
+       ----------
+       configtuple:
+            tuple with data of l-system:
+                variables, constants, axioms, rules, translations
+        iterations:
+            int: amount of iterations
+        lSystem:
+            str: result-string
+   """
+
     historyfile = open("History.txt", "a")
     line = "\n" + datetime.datetime.now().isoformat(sep=" ",timespec='seconds') + "\t"
     for elem in configtuple:
@@ -588,6 +602,16 @@ def addHistory(configtuple, iterations, lSystem):
     historyfile.write(line)
 
 def askExport(screen):
+    """
+        asks the user if he wants to save the drawing,
+        if Yes, saves it to a asked filename
+
+       Parameters
+       ----------
+       screen :
+           turtle screen
+
+       """
     answer = input("Save the drawing (Y/n): ")
     if answer == "Y":
         name = input("What should its name be: ")
@@ -596,6 +620,16 @@ def askExport(screen):
 
 
 def export(screen, filename):
+    """
+       saves the drawing to the images map, to a given filename
+
+       Parameters
+       ----------
+       screen :
+           turtle screen
+       filename:
+            name of the image
+       """
     path = './images'
     completeName = os.path.join(path, filename+".eps")
     screen.getcanvas().postscript(file = completeName)
