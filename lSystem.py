@@ -5,7 +5,7 @@ import turtle
 #for checking if config file exists
 import os
 #for timestamp in historyfile
-import time
+import datetime
 
 
 def main():
@@ -595,7 +595,7 @@ def addHistory(configtuple, iterations, lSystem):
    """
 
     historyfile = open("History.txt", "a")
-    line = "\n" + time.asctime() + "\t"
+    line = "\n" + datetime.datetime.now().isoformat(sep=" ",timespec='seconds') + "\t"
     for elem in configtuple:
         line += str(elem) + "\t"
     line += str(iterations) + "\t" + lSystem
@@ -633,6 +633,5 @@ def export(screen, filename):
     path = './images'
     completeName = os.path.join(path, filename+".eps")
     screen.getcanvas().postscript(file = completeName)
-
 
 main()
