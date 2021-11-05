@@ -402,7 +402,7 @@ def runTurtle(lSystem, translations):
     turtleRunInstructions(screen, turt, lSystem, translations)
     
     input("press enter to continue... ")
-
+    askExport(screen)
 def turtleRunInstructions(screen, turt, lSystem, translations):
     """
     This function runs the turtle to draw an lSystem
@@ -587,6 +587,16 @@ def addHistory(configtuple, iterations, lSystem):
     line += str(iterations) + "\t" + lSystem
     historyfile.write(line)
 
+def askExport(screen):
+    answer = input("Save the drawing (Y/n): ")
+    if answer == "Y":
+        name = input("What should its name be: ")
+        export(screen, name)
 
 
+
+def export(screen, filename):
+    path = './images'
+    completeName = os.path.join(path, filename+".eps")
+    screen.getcanvas().postscript(file = completeName)
 main()
