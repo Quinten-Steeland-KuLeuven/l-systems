@@ -1,0 +1,19 @@
+{
+    "variables": ["A", "B", "C"],
+    "constants": ["+", "-", "[", "]"],
+    "axiom": "A",
+    "rules": {
+        "A": "A[+BA]C",
+        "B": "A+CA+CC-AB-BA",
+        "C": "BAC[-BA]CCA"
+	},
+	"translations" : {
+        "A": ["draw", 5],
+        "B": ["draw", 5],
+        "C": ["draw", 5],
+        "+": ["angle", 72],
+        "-": ["angle", -72],
+        "[": ["push"],
+        "]": ["pop"]
+	}
+}

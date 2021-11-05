@@ -7,8 +7,8 @@
         "G": "GG"
 	},
 	"translations" : {
-        "F": ["draw", 50],
-        "G": ["draw", 50],
+        "F": ["draw", 20],
+        "G": ["draw", 20],
         "+": ["angle", -120],
         "-": ["angle", 120]
 	}

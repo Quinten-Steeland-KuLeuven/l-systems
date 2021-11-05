@@ -1,0 +1,17 @@
+{
+    "variables": ["X","F"],
+    "constants": ["[", "]", "+", "-"],
+    "axiom": "X",
+    "rules": {
+        "F": "FF",
+        "X": "F+[[X]-X]-F[-FX]+X"
+	},
+	"translations" : {
+        "F": ["draw", 10],
+        "X": ["nop"],
+        "+": ["angle", 25],
+        "-": ["angle", -25],
+        "[": ["push"],
+        "]": ["pop"]
+	}
+}
