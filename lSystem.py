@@ -13,7 +13,7 @@ def main():
     iterations = getIterations()
     configTuple = readConfigFile(configFilename)
     lSystem = generateLSystem(configTuple, iterations)
-    # runTurtle(lSystem, configTuple[4])
+    runTurtle(lSystem, configTuple[4])
     addHistory(configTuple, iterations, lSystem)
 def getConfigFilename():
     """
@@ -533,11 +533,34 @@ def turtleColor(screen, turt, color):
     turt.pencolor(color)
 
 def turtlePush(screen, turt):
+    """
+    Stores the position, angle and color as a tuple in a global storage-list
+
+    Parameters
+    ----------
+    screen :
+        turtle screen
+    turt :
+        turtle
+
+    """
     global storage
-    try: storage += [[turt.pos(), turt.heading(), turt.color()[1]]]
-    except: storage = [[turt.pos(), turt.heading(), turt.color()[1]]]
+    try: storage += [(turt.pos(), turt.heading(), turt.color()[1])]
+    except: storage = [(turt.pos(), turt.heading(), turt.color()[1])]
 
 def turtlePop(scree, turt):
+    """
+        moves the turtle, without drawing, to a given position, angle and color.
+        The position is given by the last tuple in the global storage list
+
+        Parameters
+        ----------
+        screen :
+            turtle screen
+        turt :
+            turtle
+
+        """
     turt.penup()
     turt.goto(storage[-1][0])
     turt.setheading(storage[-1][1])
