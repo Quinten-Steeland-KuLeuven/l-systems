@@ -560,13 +560,16 @@ def turtlePop(scree, turt):
         turt :
             turtle
         """
-    turt.penup()
-    turt.goto(storage[-1][0])
-    turt.setheading(storage[-1][1])
-    turt.pencolor(storage[-1][2])
-    storage.pop(-1)
-    turt.pendown()
-    
+    try:
+        turt.penup()
+        turt.goto(storage[-1][0])
+        turt.setheading(storage[-1][1])
+        turt.pencolor(storage[-1][2])
+        storage.pop(-1)
+        turt.pendown()
+    except:
+        print("Error: you can't pop more than you push")
+        exit(0)
 #TODO to use or not to use
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
