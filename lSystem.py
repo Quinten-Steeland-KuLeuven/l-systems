@@ -9,9 +9,6 @@ import datetime
 #for commandline arguments
 import sys
 
-import time
-
-
 
 def main():
     
@@ -96,7 +93,6 @@ def processCommandlineArguments():
             exit(0)
     
     return configFilename, iterations, exportImageName
-    
     
 def getConfigFilename(nameToCheck):
     """
@@ -263,7 +259,6 @@ def readConfigFile(configFilename):
     
     checkVariablesConstantsAxiom(variables, constants, axiom)
     checkRulesTranslations(rules, translations)
-    
     
     return variables, constants, axiom, rules, translations
     
@@ -509,6 +504,8 @@ def turtleRunInstructions(screen, turt, lSystem, translations):
     else:
         print("iterating over long string (lenght:", len(lSystem), "). This may take some time.")
         
+    storage = []
+        
     for chara in lSystem:
         i = 0
         
@@ -526,14 +523,13 @@ def turtleRunInstructions(screen, turt, lSystem, translations):
                 
             else:
                 if translations[chara][i] == "push":
-                    turtlePush(screen, turt)
+                    turtlePush(screen, turt, storage)
                 elif translations[chara][i] == "pop":
-                    turtlePop(screen, turt)
+                    turtlePop(screen, turt, storage)
                 i += 1
     
     print("Done.")            
                 
-
 def turtleInitiate(screenSize):
     """
     creates a turtle window, sets it's canvas size and spawns a turtle
@@ -617,9 +613,9 @@ def turtleColor(screen, turt, color):
     """
     turt.pencolor(color)
 
-def turtlePush(screen, turt):
+def turtlePush(screen, turt, storage):
     """
-    Stores the position, angle and color as a tuple in a global storage-list
+    Stores the position, angle and color as a tuple in a storage-list
 
     Parameters
     ----------
@@ -629,14 +625,13 @@ def turtlePush(screen, turt):
         turtle
 
     """
-    global storage
     try: storage += [(turt.pos(), turt.heading(), turt.color()[1])]
     except: storage = [(turt.pos(), turt.heading(), turt.color()[1])]
 
-def turtlePop(screen, turt):
+def turtlePop(screen, turt, storage):
     """
         moves the turtle, without drawing, to a given position, angle and color.
-        The position is given by the last tuple in the global storage list
+        The position is given by the last tuple in the storage list
 
         Parameters
         ----------
@@ -655,6 +650,7 @@ def turtlePop(screen, turt):
     except:
         print("Error: you can't pop more than you push")
         exit(0)
+        
 #TODO to use or not to use
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
@@ -665,7 +661,6 @@ def turtlePop(screen, turt):
             largest = max(largest, (2*(item[1]**((iterations+item[1]/iterations)/item[1]))) )
     
     return largest """
-
 
 def addHistory(configtuple, iterations, lSystem):
     """
@@ -706,8 +701,6 @@ def addHistory(configtuple, iterations, lSystem):
         if name == "":
             name = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
         exportImage(screen, name) """
-
-
 
 def exportImage(screen, exportImageName):
     """
