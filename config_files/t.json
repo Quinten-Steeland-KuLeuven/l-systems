@@ -1,0 +1,19 @@
+{
+    "variables": ["A", "B"],
+    "constants": [],
+    "axiom": "A",
+    "rules": {
+        "A": "BBBCAAADD",
+        "B": "AAADBBBCCE",
+        "C": "",
+        "D": "",
+        "E":"CD"
+	},
+	"translations" : {
+        "A": ["draw", 10, "angle", 45, "color", "red"],
+        "B": ["draw", 10, "angle", -45, "color", "black"],
+        "C": ["angle", 60],
+        "D": ["angle", -60],
+        "E": ["angle", 30]
+	}
+}

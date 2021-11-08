@@ -6,16 +6,95 @@ import turtle
 import os
 #for timestamp in historyfile
 import datetime
+#for commandline arguments
+import sys
 
 
 def main():
-    configFilename = getConfigFilename()
-    iterations = getIterations()
+    
+    configFilename = iterations = exportImageName = None
+    
+    if len(sys.argv) > 1:
+        configFilename, iterations, exportImageName = processCommandlineArguments()
+    
+    if configFilename == None:
+        configFilename = getConfigFilename(None)
+    
+    if iterations == None:
+        iterations = getIterations()
+        
     configTuple = readConfigFile(configFilename)
     lSystem = generateLSystem(configTuple, iterations)
-    runTurtle(lSystem, configTuple[4])
+    screen = runTurtle(lSystem, configTuple[4])
     addHistory(configTuple, iterations, lSystem)
-def getConfigFilename():
+    
+    if exportImageName != None:
+        exportImage(screen, exportImageName)
+        
+    input("Press enter to exit")
+    exit(0)
+    
+def processCommandlineArguments():
+    configFilename = iterations = exportImageName = None
+    
+    counter = 0
+    while counter < len(sys.argv)-1:
+        counter += 1
+        arg = sys.argv[counter]
+        
+        if arg == "--help" or arg == "-h":
+            print("All commandline options:\n-h or --help" + 5*"\t" + "Displays help.")
+            print("-e or --export <filename>" + 3*"\t" + "Exports the turtle drawing to a file.")
+            print("-c or --config <name of the configfile>" + 2*"\t" + "Used to give the config file name to the program.")
+            print("-i or --iterations [amount]" + 3*"\t" + "Used to give the amount of iterations to the program.")
+            exit(0)
+            
+        elif arg == "--export" or arg == "-e":
+            counter += 1
+            try: arg = sys.argv[counter]
+            except:
+                print("Missing an argument.")
+                exit(0)
+            if arg[0] == "-" or arg == "":
+                counter -= 1
+            else:
+                exportImageName = arg
+                           
+        elif arg == "--iterations" or arg == "-i":
+            counter += 1
+            try: arg = sys.argv[counter]
+            except:
+                print("Missing an argument.")
+                exit(0)
+            if arg[0] == "-" or arg == "":
+                counter -= 1
+            else:
+                try: iterations = int(arg)
+                except KeyError(): 
+                    print("--iterations must be followed by a positive integer.")
+                    exit(0)
+                    if iterations < 1:
+                        print("Iterations must be larger than 0")
+                        exit(0)
+                        
+        elif arg == "--config" or arg == "-c":
+            counter += 1
+            try: arg = sys.argv[counter]
+            except:
+                print("Missing an argument.")
+                exit(0)
+            if arg[0] == "-" or arg == "":
+                counter -= 1
+            else:
+                configFilename = getConfigFilename(arg)
+            
+        else:
+            print("Unknown argument, use --help for help.")
+            exit(0)
+    
+    return configFilename, iterations, exportImageName
+    
+def getConfigFilename(nameToCheck):
     """
     function that ask user for name of config file and checks if the file exists
 
@@ -24,7 +103,10 @@ def getConfigFilename():
     str
         full path of config file
     """
-    userInput = input("Enter config file name: ")
+    if nameToCheck == None:
+        userInput = input("Enter config file name: ")
+    else: 
+        userInput = nameToCheck
     
     checkIfCacheExists()
     
@@ -177,7 +259,6 @@ def readConfigFile(configFilename):
     
     checkVariablesConstantsAxiom(variables, constants, axiom)
     checkRulesTranslations(rules, translations)
-    
     
     return variables, constants, axiom, rules, translations
     
@@ -401,8 +482,8 @@ def runTurtle(lSystem, translations):
     
     turtleRunInstructions(screen, turt, lSystem, translations)
     
-    input("press enter to continue... ")
-    askExport(screen)
+    return screen
+    
 def turtleRunInstructions(screen, turt, lSystem, translations):
     """
     This function runs the turtle to draw an lSystem
@@ -418,16 +499,18 @@ def turtleRunInstructions(screen, turt, lSystem, translations):
     translations : dict
         dict of translations
     """
-    print("iterating over string:", lSystem)
-    
-    print(42*"-")
-    
+    if len(lSystem)<4096:
+        print("iterating over string:", lSystem)
+    else:
+        print("iterating over long string (lenght:", len(lSystem), "). This may take some time.")
+        
+    storage = []
+        
     for chara in lSystem:
         i = 0
         
         while i < len(translations[chara]):
             if translations[chara][i] in ["angle", "draw", "forward", "color"]:
-                print(translations[chara][i], " + ", translations[chara][i+1],end="; ")
                 if translations[chara][i] == "angle":
                     turtleAngle(screen, turt, translations[chara][i+1])
                 elif translations[chara][i] == "draw":
@@ -437,18 +520,16 @@ def turtleRunInstructions(screen, turt, lSystem, translations):
                 elif translations[chara][i] == "color":
                     turtleColor(screen, turt, translations[chara][i+1])
                 i += 2
+                
             else:
-                print(translations[chara][i],end="; ")
                 if translations[chara][i] == "push":
-                    turtlePush(screen, turt)
+                    turtlePush(screen, turt, storage)
                 elif translations[chara][i] == "pop":
-                    turtlePop(screen, turt)
+                    turtlePop(screen, turt, storage)
                 i += 1
-        
-        print("")
-               
-    print(42*"=")
-
+    
+    print("Done.")            
+                
 def turtleInitiate(screenSize):
     """
     creates a turtle window, sets it's canvas size and spawns a turtle
@@ -467,7 +548,7 @@ def turtleInitiate(screenSize):
     turtle.screensize(canvwidth=screenSize, canvheight=screenSize)
     screen = turtle.getscreen()
     turt = turtle.Turtle()
-    turt.speed(0)
+    turt.speed(0.5)
     return screen, turt
 
 def turtleAngle(screen,turt,angle):
@@ -532,9 +613,9 @@ def turtleColor(screen, turt, color):
     """
     turt.pencolor(color)
 
-def turtlePush(screen, turt):
+def turtlePush(screen, turt, storage):
     """
-    Stores the position, angle and color as a tuple in a global storage-list
+    Stores the position, angle and color as a tuple in a storage-list
 
     Parameters
     ----------
@@ -544,14 +625,13 @@ def turtlePush(screen, turt):
         turtle
 
     """
-    global storage
     try: storage += [(turt.pos(), turt.heading(), turt.color()[1])]
     except: storage = [(turt.pos(), turt.heading(), turt.color()[1])]
 
-def turtlePop(scree, turt):
+def turtlePop(screen, turt, storage):
     """
         moves the turtle, without drawing, to a given position, angle and color.
-        The position is given by the last tuple in the global storage list
+        The position is given by the last tuple in the storage list
 
         Parameters
         ----------
@@ -570,6 +650,7 @@ def turtlePop(scree, turt):
     except:
         print("Error: you can't pop more than you push")
         exit(0)
+        
 #TODO to use or not to use
 #bad attempt at getting max screen size
 """ def getMaxScreenSize(translations, iterations):
@@ -580,7 +661,6 @@ def turtlePop(scree, turt):
             largest = max(largest, (2*(item[1]**((iterations+item[1]/iterations)/item[1]))) )
     
     return largest """
-
 
 def addHistory(configtuple, iterations, lSystem):
     """
@@ -604,8 +684,8 @@ def addHistory(configtuple, iterations, lSystem):
     line += str(iterations) + "\t" + lSystem
     historyfile.write(line)
 
-def askExport(screen):
-    """
+""" def askExport(screen):
+    
         asks the user if he wants to save the drawing,
         if Yes, saves it to a asked filename
 
@@ -614,15 +694,15 @@ def askExport(screen):
        screen :
            turtle screen
 
-       """
+    
     answer = input("Save the drawing (Y/n): ")
     if answer == "Y":
         name = input("What should its name be: ")
-        export(screen, name)
+        if name == "":
+            name = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
+        exportImage(screen, name) """
 
-
-
-def export(screen, filename):
+def exportImage(screen, exportImageName):
     """
        saves the drawing to the images map, to a given filename
 
@@ -630,11 +710,17 @@ def export(screen, filename):
        ----------
        screen :
            turtle screen
-       filename:
+       filename: str
             name of the image
        """
+       
+    if exportImageName == None:
+        exportImageName = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
+    if exportImageName[-4:] != ".eps":
+        exportImageName += ".eps"
+    
     path = './images'
-    completeName = os.path.join(path, filename+".eps")
+    completeName = os.path.join(path, exportImageName)
     screen.getcanvas().postscript(file = completeName)
 
 main()
