@@ -53,8 +53,7 @@ def processCommandlineArguments():
             counter += 1
             try: arg = sys.argv[counter]
             except:
-                print("Missing an argument.")
-                exit(0)
+                exportImageName = ""
             if arg[0] == "-" or arg == "":
                 counter -= 1
             else:
@@ -548,7 +547,7 @@ def turtleInitiate(screenSize):
     turtle.screensize(canvwidth=screenSize, canvheight=screenSize)
     screen = turtle.getscreen()
     turt = turtle.Turtle()
-    turt.speed(0.5)
+    turt.speed(0)
     return screen, turt
 
 def turtleAngle(screen,turt,angle):
@@ -714,7 +713,7 @@ def exportImage(screen, exportImageName):
             name of the image
        """
        
-    if exportImageName == None:
+    if exportImageName == "":
         exportImageName = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
     if exportImageName[-4:] != ".eps":
         exportImageName += ".eps"
