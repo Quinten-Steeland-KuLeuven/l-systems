@@ -29,7 +29,6 @@ def main():
     if exportImageName != None:
         exportImage(screen, exportImageName, turtlePosition)
         
-    print(closeAfterDrawing)
     if closeAfterDrawing == False:
         input("Press enter to exit...")
     exit(0)
@@ -499,7 +498,7 @@ def runTurtle(lSystem, translations, showDrawProcess, noProgressbar):
     
     screen, turt = turtleInitiate(showDrawProcess)
     
-    turtlePosition = turtleRunMainLoop(screen, turt, lSystem, translations, noProgressbar)
+    screen, turtlePosition = turtleRunMainLoop(screen, turt, lSystem, translations, noProgressbar)
     
     return screen, turtlePosition
     
@@ -531,7 +530,7 @@ def turtleRunMainLoop(screen, turt, lSystem, translations, noProgressbar):
     
     turtle.update() 
     
-    return turtlePosition    
+    return screen, turtlePosition    
 
 def turtleRunInstructions(screen, turt, lSystem, translations, storage, turtlePosition, chara):
     i = 0
