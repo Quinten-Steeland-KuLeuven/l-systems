@@ -11,6 +11,8 @@ import sys
 
 
 def main():
+    configFilename = iterations = exportImageName = None
+    showDrawProcess = noProgressbar = closeAfterDrawing = False
     
     if len(sys.argv) > 1:
         configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing = processCommandlineArguments()
@@ -27,7 +29,7 @@ def main():
     addHistory(configTuple, iterations, lSystem)
     
     if exportImageName != None:
-        exportImage(screen, exportImageName, turtlePosition)
+        exportImage(screen, exportImageName, turtlePosition, configFilename, iterations)
         
     if closeAfterDrawing == False:
         input("Press enter to exit...")
@@ -64,6 +66,7 @@ def processCommandlineArguments():
                 exportImageName = ""
             if arg[0] == "-" or arg == "":
                 counter -= 1
+                exportImageName = ""
             else:
                 exportImageName = arg
                            
@@ -123,33 +126,34 @@ def getConfigFilename(nameToCheck):
         userInput = input("Enter config file name: ")
     else: 
         userInput = nameToCheck
+        
+    homePath = os.environ['HOME']
+    
+    locations = ["./config_files/", "./", homePath + "/", homePath + "/.lSystems/", homePath + "/.lSystems/config_files/", "./random_configs/" ]
     
     checkIfCacheExists()
     
-    if userInput == "":
+    configFilename = None
+    
+    if userInput != "":
+        for location in locations:
+            if os.path.exists(location + userInput + ".json"):
+                configFilename = os.path.abspath(location + userInput + ".json")
+                print("Using config file at", configFilename)
+                break 
+            elif os.path.exists(location + userInput):
+                configFilename = os.path.abspath(location + userInput)
+                print("Using config file at", configFilename)
+                break 
+            
+        if configFilename == None: 
+            print("Config file not found, please check it is placed in the 'config_file' folder.")
+            exit(0)
+            
+    else:
         configFilename = getFromCache("lastUsedConfigFile")
         print("Using config file at", configFilename)
     
-    elif os.path.exists("./config_files/" + userInput):
-        configFilename = os.path.abspath("./config_files/" + userInput)
-        print("Using config file at", configFilename)
-        
-    elif os.path.exists("./config_files/" + userInput + ".json"):
-        configFilename = os.path.abspath("./config_files/" + userInput + ".json")
-        print("Using config file at", configFilename)
-        
-    elif os.path.exists(userInput):
-        configFilename = os.path.abspath(userInput)
-        print("Using config file at", configFilename)
-        
-    elif os.path.exists(userInput + ".json"):
-        configFilename = os.path.abspath(userInput + ".json")
-        print("Using config file at", configFilename)
-        
-    else:
-        print("Config file not found, please check it is placed in the 'config_file' folder.")
-        exit(0)
-        
     storeInCache("lastUsedConfigFile", configFilename)
 
     return configFilename
@@ -545,7 +549,7 @@ def turtleRunInstructions(screen, turt, lSystem, translations, storage, turtlePo
                 turtlePosition = getTurtlePosition(screen, turt, turtlePosition)
                 
             elif translations[chara][i] == "forward":
-                turtleForward(screen, turt, translations[chara][i+1])
+                turtleMove(screen, turt, translations[chara][i+1])
                 turtlePosition = getTurtlePosition(screen, turt, turtlePosition)
                 
             elif translations[chara][i] == "color":
@@ -739,7 +743,7 @@ def addHistory(configtuple, iterations, lSystem):
             name = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
         exportImage(screen, name) """
 
-def exportImage(screen, exportImageName, turtlePosition):
+def exportImage(screen, exportImageName, turtlePosition, configFilename, iterations):
     """
        saves the drawing to the images map, to a given filename
 
@@ -750,13 +754,13 @@ def exportImage(screen, exportImageName, turtlePosition):
        filename: str
             name of the image
        """
-       
+    
     if exportImageName == "":
-        exportImageName = datetime.datetime.now().isoformat(sep="T",timespec='seconds')
+        exportImageName = datetime.datetime.now().isoformat(sep="T",timespec='seconds') + "_" + configFilename.rsplit("/", 1)[-1][:-5] + "_" + str(iterations)
     if exportImageName[-4:] != ".eps":
         exportImageName += ".eps"
     
-    path = './images'
+    path = './images/'
     completeName = os.path.join(path, exportImageName)
     Cwidth = abs(turtlePosition[2] - turtlePosition[0])+20
     Cheight = abs(turtlePosition[3] - turtlePosition[1])+20
@@ -764,11 +768,11 @@ def exportImage(screen, exportImageName, turtlePosition):
 
 #function to display a progressbar. used on long l-systems
 #from https://stackoverflow.com/a/34482761
-def progressbar(it, prefix="", size=60, file=sys.stdout):
+def progressbar(it, prefix="", size=100, file=sys.stdout):
     count = len(it)
     def show(j):
         x = int(size*j/count)
-        file.write("%s[%s%s] %i/%i\r" % (prefix, "#"*x, "."*(size-x), j, count))
+        file.write("%s[%s%s] %i/%i %i%s\r" % (prefix , "◼"*x, "◻"*(size-x), j, count, x, "%"))
         file.flush()        
     show(0)
     for i, item in enumerate(it):
