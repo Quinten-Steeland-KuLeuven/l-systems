@@ -526,7 +526,7 @@ def turtleRunMainLoop(screen, turt, lSystem, translations, noProgressbar):
     turtlePosition = 0,0,0,0
     
     if len(lSystem) > 500000 and noProgressbar == False:
-        for chara in progressbar(lSystem,"  Progress: ",100):
+        for chara in progressbar(lSystem," ",100):
             turtlePosition = turtleRunInstructions(screen, turt, lSystem, translations, storage, turtlePosition, chara)
     else:
         for chara in lSystem:
