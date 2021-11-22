@@ -1,14 +1,25 @@
 import datetime
 from random import randint 
 import json
+import sys
 
 """ 
 generate random config file for lSystem
 Quick and dirty, not final
 """
 
+def generateRandomConfig():
+    filename, config = generateConfig()
+    return filename
 
 def main():
+    
+    filename, config = generateConfig()
+    
+    print(config)
+    print("Done:", filename)
+
+def generateConfig():
     filename = "./random_configs/C_" + datetime.datetime.now().isoformat(sep="T",timespec='seconds') + ".json"
     availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","["]
@@ -21,12 +32,12 @@ def main():
     global MAX_AMOUNT_MOVE
     global MAX_ITEMS_PER_TRANSLATION
     global MAX_LEN_RULES
-    MAX_LEN_RULES = (3*(len(availableCharacters)+len(availableConstants))//8)+1
-    MAX_AMOUNT_MOVE = 40
-    MAX_ITEMS_PER_TRANSLATION = 6
+    MAX_LEN_RULES = (5*(len(availableCharacters)+len(availableConstants))//12)+1
+    MAX_AMOUNT_MOVE = 30
+    MAX_ITEMS_PER_TRANSLATION = 7
 
-    AmountCharacters = randint(1,20)
-    AmountConstants = randint(2, 15)
+    AmountCharacters = randint(1,24)
+    AmountConstants = randint(2, 16)
 
     selectedCharacters = []
     selectedConstants = []
@@ -72,16 +83,11 @@ def main():
     config["rules"] = rules
     config["translations"] = translations
     
-    """ configFile = open(filename, "w")
-    configFile.write(str(config))
-    configFile.close() """
     with open(filename, "w") as configFile:
         json.dump(config, configFile)
         configFile.close()
     
-    print(config)
-    
-    print("Done:", filename)
+    return filename, config
 
 def generateRule(selectedCharacters,selectedConstants):
     rule = []
@@ -123,7 +129,7 @@ def generateTranslation(chara, availableOptions, availableColors):
             if translation[-1] == "color":
                 translation.append(pickRandomColor(availableColors))
             elif translation[-1] == "angle":
-                translation.append(randint(-180, 180))
+                translation.append(randint(-359, 359))
             elif translation[-1] == "forward" or translation[-1] == "draw":
                 translation.append(randint(-MAX_AMOUNT_MOVE, MAX_AMOUNT_MOVE))
     
@@ -166,8 +172,8 @@ def generateAxiom(selectedCharacters,selectedConstants):
                 
     return axiom
 
-       
-main()  
+if __name__ == "__main__":
+    main()  
 
 
 
