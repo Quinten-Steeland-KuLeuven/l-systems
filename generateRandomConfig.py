@@ -20,7 +20,7 @@ def main():
     print("Done:", filename)
 
 def generateConfig():
-    filename = "./random_configs/C_" + datetime.datetime.now().isoformat(sep="T",timespec='seconds') + ".json"
+    filename = "./Random_configs/C_" + datetime.datetime.now().isoformat(sep="T",timespec='seconds') + ".json"
     availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","["]
     availableOptions = ["angle","draw","forward","color","nop"]

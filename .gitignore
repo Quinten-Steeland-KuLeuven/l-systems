@@ -137,3 +137,9 @@ cache.json
 #History file
 cache.json
 History.txt
+
+#directory files
+.directory
+
+#archive folder
+archive/

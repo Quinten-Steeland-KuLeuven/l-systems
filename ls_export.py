@@ -5,7 +5,7 @@ import os
 
 def exportImage(screen, exportImageName, turtlePosition, configFilename, iterations):
     """
-       saves the drawing to the images map, to a given filename
+       saves the drawing to the Images map, to a given filename
 
        Parameters
        ----------
@@ -20,7 +20,7 @@ def exportImage(screen, exportImageName, turtlePosition, configFilename, iterati
     if exportImageName[-4:] != ".eps":
         exportImageName += ".eps"
     
-    path = './images/'
+    path = './Images/'
     completeName = os.path.join(path, exportImageName)
     Cwidth = abs(turtlePosition[2] - turtlePosition[0])+20
     Cheight = abs(turtlePosition[3] - turtlePosition[1])+20
