@@ -12,12 +12,12 @@ from ls_export import exportImage
 
 from generateRandomConfig import generateRandomConfig
 
-def runLsystem():
+def runLsystem(allArguments=sys.argv):
     """
     main loop of the program
     """
     
-    configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig = processCommandlineArguments(sys.argv)
+    configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig = processCommandlineArguments(allArguments)
     
     if useRandomConfig == True:
         configFilename = generateRandomConfig()
@@ -32,7 +32,7 @@ def runLsystem():
     variables, constants, axiom, rules, translations = readConfigFile(configFilename)
     
     lSystem = generateLSystem(variables, constants, axiom, rules, translations, iterations)
-    
+
     screen, turtlePosition = runTurtle(lSystem,translations, showDrawProcess, noProgressbar)
     
     addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem)
@@ -42,7 +42,6 @@ def runLsystem():
         
     if closeAfterDrawing == False:
         input("Press enter to exit...")
-    exit(0)
  
 if __name__ == "__main__":
     runLsystem()

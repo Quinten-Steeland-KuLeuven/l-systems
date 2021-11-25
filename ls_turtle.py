@@ -113,14 +113,15 @@ def turtleInitiate(showDrawProcess):
     
     turtle.screensize(canvwidth=screenSize, canvheight=screenSize)
     screen = turtle.getscreen()
+    screen.clear()
     turtle.hideturtle()
     turtle.delay(0)
     if showDrawProcess == False:
         turtle.tracer(0, 0)
-    turt = turtle.Turtle()
+        screen.tracer(0, 0)
+    turt = turtle.Turtle(undobuffersize = 1, visible = False)
     turt.speed(0)
     
-    #turt.
     return screen, turt
 
 def turtleAngle(screen,turt,angle):
