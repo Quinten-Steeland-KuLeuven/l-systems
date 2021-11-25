@@ -143,3 +143,9 @@ History.txt
 
 #archive folder
 archive/
+
+#everything inside History_backups, Config_files, Images, Random_configs
+History_backups/*
+Config_files/* 
+Images/*
+Random_configs/*
