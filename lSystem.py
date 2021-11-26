@@ -31,7 +31,7 @@ def runLsystem(allArguments=sys.argv):
         
     variables, constants, axiom, rules, translations = readConfigFile(configFilename)
     
-    lSystem = generateLSystem(variables, constants, axiom, rules, translations, iterations)
+    lSystem = generateLSystem(axiom, rules, translations, iterations)
 
     screen, turtlePosition = runTurtle(lSystem,translations, showDrawProcess, noProgressbar)
     
