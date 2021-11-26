@@ -1,4 +1,4 @@
-def generateLSystem(variables, constants, axiom, rules, translations, iterations):
+def generateLSystem(axiom, rules, translations, iterations):
     """
     generates a basic l system from the config for a certain amount of iterations
 

@@ -22,7 +22,11 @@ def getConfigFilename(nameToCheck):
         
     homePath = os.environ['HOME']
     
-    locations = ["./config_files/", "./", homePath + "/", homePath + "/.lSystems/", homePath + "/.lSystems/config_files/", "./random_configs/" ]
+    locations = [
+                    "./Examples/", "./Config_files/", "./", homePath + "/", homePath + "/.lSystems/",
+                    homePath + "/.lSystems/Config_files/", "./Random_configs/", "./Config_files/", homePath + "/.lSystems/config_files/",
+                    "./random_configs/", "./Configs/","./configs/"
+                ]
     
     configFilename = None
     

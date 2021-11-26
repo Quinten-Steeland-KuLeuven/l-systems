@@ -14,11 +14,15 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
             int: amount of iterations
         lSystem:
             str: result-string
-   """
-
+    """
+    timestamp = datetime.datetime.now().isoformat(sep=" ",timespec='seconds')
+    
     historyfile = open("History.txt", "a")
-    line = "\n" + datetime.datetime.now().isoformat(sep=" ",timespec='seconds') + "\t"
+    line = "\n" + timestamp + "\t"
+    print(line)
     for elem in variables, constants, axiom, rules, translations:
         line += str(elem) + "\t"
     line += str(iterations) + "\t" + lSystem
     historyfile.write(line)
+    
+    return line, timestamp

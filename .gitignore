@@ -137,3 +137,18 @@ cache.json
 #History file
 cache.json
 History.txt
+
+#directory files
+.directory
+
+#archive folder
+archive/
+
+#everything inside History_backups, Config_files, Images, Random_configs
+History_backups/*
+Config_files/* 
+Images/*
+Random_configs/*
+
+#python virtual enviroment 
+lSystem-venv/
