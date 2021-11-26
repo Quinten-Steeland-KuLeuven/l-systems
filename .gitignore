@@ -149,3 +149,6 @@ History_backups/*
 Config_files/* 
 Images/*
 Random_configs/*
+
+#python virtual enviroment 
+lSystem-venv/
