@@ -1,0 +1,13 @@
+{
+    "axiom": "F",
+    "rules": {
+        "F": "GFG",
+        "G": "F"
+    },
+	"translations" : {
+        "F": ["draw", 3, "color", "#FFbb42"],
+        "G": ["draw", 20],
+        "+": ["angle", "-45"],
+        "-": ["angle", 120]
+	}
+}
