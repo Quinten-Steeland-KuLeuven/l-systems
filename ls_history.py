@@ -1,5 +1,6 @@
 #for timestamp
 import datetime
+import os.path
 
 def addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem):
     """
@@ -16,8 +17,10 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
             str: result-string
     """
     timestamp = datetime.datetime.now().isoformat(sep=" ",timespec='seconds')
-    
-    historyfile = open("History.txt", "a")
+    if os.path.isfile("History.txt"):
+        historyfile = open("History.txt", "a")
+    else:
+        historyfile = open("History.txt", "w")
     line = "\n" + timestamp + "\t"
     print(line)
     for elem in variables, constants, axiom, rules, translations:
@@ -26,3 +29,4 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
     historyfile.write(line)
     
     return line, timestamp
+
