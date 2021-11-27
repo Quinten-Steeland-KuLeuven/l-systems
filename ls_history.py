@@ -1,6 +1,9 @@
 #for timestamp
 import datetime
+#for checking if file exists
 import os.path
+#for making empty history file
+from restoreBackup import clearHistoryFile
 
 def addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem):
     """
@@ -17,16 +20,16 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
             str: result-string
     """
     timestamp = datetime.datetime.now().isoformat(sep=" ",timespec='seconds')
-    if os.path.isfile("History.txt"):
-        historyfile = open("History.txt", "a")
-    else:
-        historyfile = open("History.txt", "w")
-    line = "\n" + timestamp + "\t"
-    print(line)
+    
+    if not os.path.isfile("History.txt"):
+        clearHistoryFile()
+    historyfile = open("History.txt", "a")
+        
+    line = f"\n{timestamp}\t"
+    
     for elem in variables, constants, axiom, rules, translations:
         line += str(elem) + "\t"
     line += str(iterations) + "\t" + lSystem
     historyfile.write(line)
     
     return line, timestamp
-

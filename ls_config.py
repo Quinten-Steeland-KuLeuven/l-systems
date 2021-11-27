@@ -1,48 +1,25 @@
-#for reading json file
-import json
-
 #import our own functions
-from ls_checks import checkRulesTranslations, checkVariablesConstantsAxiom
+from ls_checks import checkAxiom, checkRules, checkTranslations
+from ls_json import readJsonFile
 
-def readConfigFile(configFilename):
-    """
-    function that gets all the info out of the config file
-
-    Parameters
-    ----------
-    configFilename : str
-        full path to the config file
-
-    Returns
-    -------
-    tuple
-    list, list, str, dict, dict
+def getConfig(configFilename):
+    configDict = readJsonFile(configFilename)
     
-    returns a tuple of:
-        variables, constants, axiom, rules, translations
-    """
-    with open(configFilename) as configFile:
-        config = json.load(configFile)
-        configFile.close()
-        
-    axiom = getAxiomFromConfig(config)
+    axiom = getAxiomFromConfig(configDict)
     
-    constants = getConstantsFromConfig(config)
+    rules = getRulesFromConfig(configDict)
     
-    translations = getTranslationsFromConfig(config)
+    translations = getTranslationsFromConfig(configDict)
     
-    variables = getVariablesFromConfig(config)
+    variables, constants = getVariablesConstantsFromRulesTranslations(rules, translations)
     
-    rules = getRulesFromConfig(config)
-    
-    checkVariablesConstantsAxiom(variables, constants, axiom)
-    checkRulesTranslations(rules, translations)
+    axiom = checkAxiom(variables, constants, axiom, rules, translations)
+    rules = checkRules(variables, constants, axiom, rules, translations)
+    translations = checkTranslations(variables, constants, axiom, rules, translations)
     
     return variables, constants, axiom, rules, translations
 
-#read input data
-
-def getAxiomFromConfig(config):
+def getAxiomFromConfig(configDict):
     """
     Get axiom from config if it exists
 
@@ -56,86 +33,20 @@ def getAxiomFromConfig(config):
     str
         the axiom
     """
-    try: 
-        axiom = str(config["axiom"]).upper()
-    except KeyError:
-        print("Config error: no axiom found.")
-        exit(0) 
+    axiom = configDict.get("axiom")
+    if axiom is None:
+        print("Config error: axiom was not found.")
+        exit(0)
+
+    if axiom is not str:
+        try: 
+            axiom = str(axiom)
+        except KeyError:
+            print("Config error: axiom is not a string.")
+            exit(0) 
     return axiom
 
-def getConstantsFromConfig(config):
-    """
-    gets constants from config if it exists
-    if no constants exist it returns an empty list
-
-    Parameters
-    ----------
-    config : dict
-        config json file opened with json.load
-
-    Returns
-    -------
-    list
-        list of constans
-        returns a tuple of
-        constants, translations
-        
-    """
-    
-    try: 
-        constants = list(config["constants"])
-    except KeyError:
-        constants = []
-    return constants
-
-def getTranslationsFromConfig(config):
-    """
-    gets constants from config if it exists
-
-    Parameters
-    ----------
-    config : dict
-        config json file opened with json.load
-
-    Returns
-    -------
-    dict
-        dict of translations        
-    """
-    
-    try:
-        translations = dict(config["translations"])
-        translations = dict((k, [x if type(x) != str else x.lower() for x in v]) for k,v in translations.items())    
-        
-        #item.lower() for item in v if type(item) == str         
-    except KeyError:
-        print("Config error: no translations were found.")
-        exit(0)
-        
-    return  translations
-
-def getVariablesFromConfig(config):
-    """
-    Get variables from config if they exists
-
-    Parameters
-    ----------
-    config : dict
-        config json file opened with json.load
-
-    Returns
-    -------
-    list
-        list of the variables
-    """
-    try:
-        variables = list(config["variables"])
-    except KeyError:
-        print("Config error: no variables found.")
-        exit(0) 
-    return variables
-
-def getRulesFromConfig(config):
+def getRulesFromConfig(configDict):
     """
     Get rules from config if they exists
 
@@ -149,12 +60,55 @@ def getRulesFromConfig(config):
     dict
         dict of the rules
     """
-    try:
-        rules = dict(config["rules"])
-    except KeyError:
-        print("Config error: no rules found.")
-        exit(0) 
+    rules = configDict.get("rules")
+    if rules is None:
+        print("Waring: no rules were found.")
+        rules = dict()
     
-    #make rules always uppercase
-    rules = dict((k.upper(), v.upper()) for k,v in rules.items())
+    elif rules is not dict:
+        try:
+            rules = dict(rules)
+        except KeyError:
+            print("Config error: bad formating of rules.")
+            exit(0) 
+
     return rules
+
+def getTranslationsFromConfig(configDict):
+    """
+    gets constants from config if it exists
+
+    Parameters
+    ----------
+    config : dict
+        config json file opened with json.load
+
+    Returns
+    -------
+    dict
+        dict of translations        
+    """
+    translations = configDict.get("translations")
+    if translations is None:
+        print("Config error: no translations were found.")
+        exit(0)
+    
+    if translations is not dict:
+        try:
+            translations = dict(translations)       
+        except KeyError:
+            print("Config error: no translations were found.")
+            exit(0)
+        
+    return translations
+
+def getVariablesConstantsFromRulesTranslations(rules, translations):
+    
+    variables = list(rules.keys())
+
+    constants = list(translations.keys() - rules.keys())
+    
+    return variables, constants
+
+
+

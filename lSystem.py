@@ -6,7 +6,7 @@ from ls_turtle import runTurtle
 from ls_commandline_arguments import processCommandlineArguments
 from ls_history import addToHistory
 from ls_user_input import getConfigFilename, getIterations
-from ls_config import readConfigFile
+from ls_config import getConfig
 from ls_lSystem import generateLSystem
 from ls_export import exportImage
 
@@ -29,7 +29,7 @@ def runLsystem(allArguments=sys.argv):
     if iterations == None:
         iterations = getIterations()
         
-    variables, constants, axiom, rules, translations = readConfigFile(configFilename)
+    variables, constants, axiom, rules, translations = getConfig(configFilename)
     
     lSystem = generateLSystem(axiom, rules, translations, iterations)
 
