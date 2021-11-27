@@ -22,7 +22,7 @@ def readJsonFile(jsonFilename):
         try:
             fileContent = json.load(readFile)
         except json.decoder.JSONDecodeError:
-            print("Config error: Badly formated json file.")
+            print("Error: badly formatted json file.")
             exit(0)
 
     if fileContent == dict() or fileContent == "" or fileContent == "\n":
@@ -33,7 +33,7 @@ def readJsonFile(jsonFilename):
         try:
             fileContent = dict(fileContent)
         except KeyError:
-            print("Error: Badly formated json file.")
+            print("Error: badly formatted json file.")
             exit(0)
 
     return fileContent
