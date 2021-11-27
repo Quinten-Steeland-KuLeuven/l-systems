@@ -21,10 +21,9 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
     """
     timestamp = datetime.datetime.now().isoformat(sep=" ",timespec='seconds')
     
-    if os.path.isfile("History.txt"):
-        historyfile = open("History.txt", "a")
-    else:
+    if not os.path.isfile("History.txt"):
         clearHistoryFile()
+    historyfile = open("History.txt", "a")
         
     line = f"\n{timestamp}\t"
     
