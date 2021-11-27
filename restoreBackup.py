@@ -18,7 +18,7 @@ def main():
 
     try: 
         chosenIndex = int(input())
-    except KeyError:
+    except ValueError:
         print("Not a number.")
         exit(0)
         
@@ -32,7 +32,7 @@ def main():
     if chosenIndex > 0:
         
         targetFile = allFiles[chosenIndex-1]
-        with open("./History_backups/{targetfile}","r") as readFile:
+        with open(f"./History_backups/{targetFile}","r") as readFile:
             fileContent = readFile.readlines()
             
         with open("History.txt", "w") as writeFile:

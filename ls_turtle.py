@@ -18,7 +18,7 @@ def runTurtle(lSystem, translations, showDrawProcess, noProgressbar):
     if len(lSystem)<1024:
         print("Iterating over string:", lSystem)
     else:
-        print("Iterating over long string (lenght: " + str(len(lSystem)) + ").")
+        print(f"Iterating over long string (lenght: {len(lSystem)}).")
     
     screen, turt = turtleInitiate(showDrawProcess)
     
@@ -60,7 +60,7 @@ def turtleRunInstructions(screen, turt, lSystem, translations, storage, turtlePo
     i = 0
         
     while i < len(translations[chara]):
-        if translations[chara][i] in ["angle", "draw", "forward", "color"]:
+        if translations[chara][i] in ["angle", "draw", "forward", "color", "move"]:
             if translations[chara][i] == "angle":
                 turtleAngle(screen, turt, translations[chara][i+1])
                 
@@ -68,7 +68,7 @@ def turtleRunInstructions(screen, turt, lSystem, translations, storage, turtlePo
                 turtleDraw(screen, turt, translations[chara][i+1])
                 turtlePosition = getTurtlePosition(screen, turt, turtlePosition)
                 
-            elif translations[chara][i] == "forward":
+            elif translations[chara][i] == "forward" or translations[chara][i] == "move":
                 turtleMove(screen, turt, translations[chara][i+1])
                 turtlePosition = getTurtlePosition(screen, turt, turtlePosition)
                 

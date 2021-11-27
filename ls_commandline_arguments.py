@@ -75,7 +75,7 @@ def processCommandlineArguments(allArguments):
             useRandomConfig = True
             
         else:
-            print("Unknown argument: '" + arg + "'  Use --help for help.")
+            print(f"Unknown argument: '{arg}'  Use --help for help.")
             exit(0)
     
     return configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig
