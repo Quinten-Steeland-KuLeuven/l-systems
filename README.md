@@ -1,5 +1,43 @@
 # l-systems
 
+## Setup:
+
+Clone the Repo:
+```
+git clone https://github.com/Quinten-Steeland-KuLeuven/l-systems
+```
+Setup Virtual Python Environment:
+```
+python3 -m venv lSystem-venv
+```
+Activate Virtual Environment:
+```
+source l-venv/bin/activate
+```
+Install Packages:
+```
+pip install -r requirements.txt
+```
+Install other Packages:
+```
+debian based:
+sudo apt-get install python3-tk
+
+arch based:
+sudo pacman -S tk
+```
+
+
+## Usage:
+
+Run:
+```
+python3 lSystem.py
+or
+python3 lSystem.py [command line options]
+```
+See section "Command line options"
+
 ## Config file format:
 
 ```json
