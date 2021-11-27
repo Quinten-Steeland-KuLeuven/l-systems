@@ -17,6 +17,9 @@ def getConfig(configFilename):
     rules = checkRules(variables, constants, axiom, rules, translations)
     translations = checkTranslations(variables, constants, axiom, rules, translations)
     
+    #TODO remove
+    print([variables, constants, axiom, rules, translations])
+    
     return variables, constants, axiom, rules, translations
 
 def getAxiomFromConfig(configDict):
