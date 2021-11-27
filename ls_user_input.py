@@ -25,7 +25,7 @@ def getConfigFilename(nameToCheck):
     locations = [
                     "./Examples/", "./Config_files/", "./", homePath + "/", homePath + "/.lSystems/",
                     homePath + "/.lSystems/Config_files/", "./Random_configs/", "./Config_files/", homePath + "/.lSystems/config_files/",
-                    "./random_configs/", "./Configs/","./configs/"
+                    "./random_configs/", "./Configs/","./configs/", "./l-systems/config_files/"
                 ]
     
     configFilename = None
