@@ -1,6 +1,7 @@
 #for commandline arguments
 import sys
 
+
 #import our own functions
 from ls_turtle import runTurtle
 from ls_commandline_arguments import processCommandlineArguments
@@ -47,6 +48,6 @@ def runLsystem(allArguments=sys.argv):
 
     if closeAfterDrawing == False:
         input("Press enter to exit...")
- 
-if __name__ == "__main__":
-    runLsystem()
+    
+runLsystem()
+	
