@@ -1,6 +1,8 @@
 #for reading json file
 import json
 
+import os
+
 def readJsonFile(jsonFilename):
     """
     function that gets everything out of a json file
@@ -18,6 +20,10 @@ def readJsonFile(jsonFilename):
     returns a tuple of:
         variables, constants, axiom, rules, translations
     """
+    if not os.path.exists(jsonFilename):
+        print(f"Error: file '{jsonFilename}'' does not exist.")
+        exit(0)
+    
     with open(jsonFilename, "r") as readFile:
         try:
             fileContent = json.load(readFile)

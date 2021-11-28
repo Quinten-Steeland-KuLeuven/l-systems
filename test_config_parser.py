@@ -199,3 +199,22 @@ def test_31():
 def test_32():
     assert config_test("./Unit_tests/test_7_config.json") == [['F', 'X'], {'+', '[', ']', '-'}, 'X', {'F': 'FF', 'X': 'F+[[X]-X]-F[-FX]+X'}, {'F': ['draw', 10], 'X': ['nop'], '+': ['angle', 25], '-': ['angle', -25], '[': ['push'], ']': ['pop']}]
     
+# === test 33 ===
+def test_33():
+    with pytest.raises(SystemExit) as ex:
+        config_test("./Unit_tests/thisfiledoesnotexist.pathdoesnotexis.txt.json")
+    assert ex.type == SystemExit
+    assert ex.value.code == 0
+    
+# === test 34 ===
+def test_34():
+    assert config_test("./Unit_tests/test_8_config.json") == [['0', '1'], {'+', '-'}, '0', {'0': '01', '1': '10'}, {'0': ['draw', 10], '1': ['nop'], '+': ['angle', 25], '-': ['angle', -25]}]
+    
+# === test 35 ===
+def test_35():
+    assert config_test("./Unit_tests/test_9_config.json") == [['0', '1'], {'-', '+'}, '0', {'0': '1', '1': '1+0'}, {'0': ['draw', 10.0], '1': ['draw', 15.5], '+': ['angle', 25.5], '-': ['angle', -25]}]
+     
+# === test 36 ===
+def test_36():
+    assert config_test("./Unit_tests/test_10_config.json") == [['0', '1', "A"], {'-', '+'}, 'A', {'0': '1', '1': '1+0', "A": "-0"}, {'0': ['draw', 10.0], '1': ['draw', 15.5], '+': ['angle', 25.5], '-': ['angle', -25], "A": ["angle", 0.5, "draw", 25.75]}]
+    

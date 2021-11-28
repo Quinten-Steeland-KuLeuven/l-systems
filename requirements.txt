@@ -1,4 +1,3 @@
-turtle
-pytest
-pdf2svg
-flask
+turtle==0.0.1
+pytest==6.2.5
+Flask==2.0.2

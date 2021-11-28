@@ -1,5 +1,5 @@
 #import our own functions
-from ls_checks import checkAxiom, checkRules, checkTranslations
+from ls_checks import checkAxiom, checkRules, checkTranslations, checkType
 from ls_json import readJsonFile
 
 def getConfig(configFilename):
@@ -41,12 +41,6 @@ def getAxiomFromConfig(configDict):
         print("Config error: axiom was not found.")
         exit(0)
 
-    if axiom is not str:
-        try: 
-            axiom = str(axiom)
-        except KeyError:
-            print("Config error: axiom is not a string.")
-            exit(0) 
     return axiom
 
 def getRulesFromConfig(configDict):
