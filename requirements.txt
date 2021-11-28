@@ -1,2 +1,4 @@
 turtle
 pytest
+pdf2svg
+flask
