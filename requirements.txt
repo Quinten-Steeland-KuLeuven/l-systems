@@ -1,2 +1,2 @@
-turtle
-pytest
+turtle==0.0.1
+pytest==6.2.5
