@@ -10,7 +10,7 @@ from ls_config import getConfig
 from ls_lSystem import generateLSystem
 from ls_export import exportImage
 from ls_transform import transform
-from Website import updateWebsite
+from ls_website import updateWebsite
 
 from generateRandomConfig import generateRandomConfig
 
