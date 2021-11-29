@@ -1,5 +1,17 @@
 # l-systems
 
+## Info:
+
+Program that can draw l-systems.
+Features:
+- system history
+- unit tests
+- history backups
+- exporting drawings
+- web server
+- docker
+- generate random l-systems
+
 ## Setup:
 
 Clone the Repo:
@@ -27,7 +39,6 @@ arch based:
 sudo pacman -S tk
 ```
 
-
 ## Usage:
 
 Run:
@@ -37,6 +48,17 @@ or
 python3 lSystem.py [command line options]
 ```
 See section "Command line options"
+
+## Docker:
+
+In the project folder, run:
+```
+docker build -t l-systems .
+```
+To run the docker file:
+```
+docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY l-systems
+```
 
 ## Config file format:
 
