@@ -33,10 +33,10 @@ pip install -r requirements.txt
 Install other Packages:
 ```
 debian based:
-sudo apt-get install python3-tk
+sudo apt-get install python3-tk ghostscript pdf2svg
 
 arch based:
-sudo pacman -S tk
+sudo pacman -S tk ghostscript pdf2svg
 ```
 
 ## Usage:
