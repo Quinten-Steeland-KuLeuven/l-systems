@@ -3,6 +3,8 @@ from random import randint
 import json
 import sys
 
+from ls_checks import getAllValidColors
+
 """ 
 generate random config file for lSystem
 Quick and dirty, not final
@@ -21,20 +23,23 @@ def main():
 
 def generateConfig():
     filename = "./Random_configs/C_" + datetime.datetime.now().isoformat(sep="T",timespec='seconds') + ".json"
-    availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-    availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","["]
+    availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+    availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","[","<",">","/","\\","`","?","{","}","0","1","2","3","4","5","6","7","8","9",":",";","º","£","€","¿","¡","«","»","×","±","÷","²","¦"]
     availableOptions = ["angle","draw","forward","color","nop"]
-    availableColors = ["yellow", "gold", "orange", "red",
+    availableColors = getAllValidColors()
+    """ #availableColors = ["yellow", "gold", "orange", "red",
                        "maroon", "violet", "magenta", "purple",
                        "navy", "blue", "skyblue", "cyan",
                        "turquoise", "lightgreen", "green", "darkgreen",
-                       "chocolate", "brown", "black", "gray"]
+                       "chocolate", "brown", "black", "gray"] """
     global MAX_AMOUNT_MOVE
     global MAX_ITEMS_PER_TRANSLATION
     global MAX_LEN_RULES
     MAX_LEN_RULES = (5*(len(availableCharacters)+len(availableConstants))//12)+1
     MAX_AMOUNT_MOVE = 30
     MAX_ITEMS_PER_TRANSLATION = 7
+    
+    #print("#%06x" % randint(0, 0xFFFFFF))
 
     AmountCharacters = randint(1,24)
     AmountConstants = randint(2, 16)
