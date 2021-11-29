@@ -145,10 +145,13 @@ History.txt
 archive/
 
 #everything inside History_backups, Config_files, Images, Random_configs
-History_backups/*
-Config_files/* 
-Images/*
-Random_configs/*
+History_backups/*.txt
+Config_files/*.json
+Images/*.ps
+Images/*.eps
+Images/*.pdf
+Images/*.svg
+Random_configs/*.json
 
 #python virtual enviroment 
 lSystem-venv/
