@@ -1,8 +1,9 @@
 import datetime
-from random import randint 
+from random import randint
 import json
 import sys
 
+from ls_json import readJsonFile
 from ls_checks import getAllValidColors
 
 """ 
@@ -39,7 +40,9 @@ def generateConfig():
     MAX_AMOUNT_MOVE = 30
     MAX_ITEMS_PER_TRANSLATION = 7
     
-    #print("#%06x" % randint(0, 0xFFFFFF))
+
+    
+    
 
     AmountCharacters = randint(1,24)
     AmountConstants = randint(2, 16)
@@ -176,6 +179,9 @@ def generateAxiom(selectedCharacters,selectedConstants):
             axiom += selectedConstants[pick]
                 
     return axiom
+
+def generateRandomColor():
+    return "#%06x" % randint(0, 0xFFFFFF)
 
 if __name__ == "__main__":
     main()  
