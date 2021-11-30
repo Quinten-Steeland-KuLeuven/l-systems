@@ -1,0 +1,19 @@
+{
+    "variables": ["Q","C"],
+    "constants": ["+","-","/","[","]","\\"],
+    "axiom": "+Q-Q+Q-C+Q-Q+Q-C",
+    "rules": {
+        "Q": "+Q-Q+Q-C+Q-Q+Q-C",
+        "C": "/Q\\"
+	},
+	"translations" : {
+        "Q": ["draw", 30],
+        "C": ["draw", 15],
+        "+": ["color", "darkgreen", "angle", 45 ],
+        "-": ["color", "blue","angle", -60],
+        "/": ["color", "purple","angle", 5,"draw",60,"angle", 5,"draw",60,"angle", 5,"draw",60,"angle", 5,"draw",60,"angle", 5,"draw",60,"angle", 5,"draw",60],
+        "\\": ["color", "violet","angle", -5,"draw",60,"angle", -5,"draw",60,"angle", -5,"draw",60,"angle", -5,"draw",60,"angle", -5,"draw",60,"angle", -5,"draw",60],
+        "[": ["push"],
+        "]": ["pop"]
+	}
+}

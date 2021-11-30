@@ -1,0 +1,41 @@
+{
+    "axiom": "ABCDEFGHIJKLMNOP",
+    "rules": {
+        "A": "B",
+        "B": "CB",
+        "C": "BD",
+        "D": "EB",
+        "E": "BF",
+        "F": "GB",
+        "G": "BH",
+        "H": "IB",
+        "I": "BJ",
+        "J": "KB",
+        "K": "BL",
+        "L": "MB",
+        "M": "BN",
+        "N": "OB",
+        "O": "BP",
+        "P": "A+"
+    },
+	"translations" : {
+        "A": ["draw", "2", "angle", "9"],
+        "B": ["draw", "2", "angle", "9"],
+        "C": ["draw", "2", "angle", "9"],
+        "D": ["draw", "2", "angle", "9"],
+        "E": ["draw", "2", "angle", "9"],
+        "F": ["draw", 3, "color", "#FFbb42"],
+        "G": ["draw", 20, "COLOR", "NAVY"],
+        "H": ["draw", "2", "angle", "9"],
+        "I": ["draw", "2", "angle", "9"],
+        "J": ["draw", "2", "angle", "9"],
+        "K": ["draw", "2", "angle", "9"],
+        "L": ["draw", "2", "angle", "9"],
+        "M": ["draw", "2", "angle", "9"],
+        "N": ["draw", "2", "angle", "9"],
+        "O": ["draw", "2", "angle", "9"],
+        "P": ["draw", "2", "angle", "9"],
+        "+": ["angle", "-45"],
+        "-": ["angle", 120, "LOL"]
+	}
+}

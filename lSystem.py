@@ -1,6 +1,7 @@
 #for commandline arguments
 import sys
 
+
 #import our own functions
 from ls_turtle import runTurtle
 from ls_commandline_arguments import processCommandlineArguments
@@ -9,6 +10,8 @@ from ls_user_input import getConfigFilename, getIterations
 from ls_config import getConfig
 from ls_lSystem import generateLSystem
 from ls_export import exportImage
+from ls_transform import transform
+from ls_website import updateWebsite
 
 from generateRandomConfig import generateRandomConfig
 
@@ -39,16 +42,16 @@ def runLsystem(allArguments=sys.argv):
     
     if exportImageName != None:
         exportImage(screen, exportImageName, turtlePosition, configFilename, iterations)
-<<<<<<< Updated upstream
-        
-=======
+
+
     if useWebsite:
         transform()
         updateWebsite()
 
->>>>>>> Stashed changes
+
+
     if closeAfterDrawing == False:
         input("Press enter to exit...")
- 
-if __name__ == "__main__":
-    runLsystem()
+    
+runLsystem()
+	
