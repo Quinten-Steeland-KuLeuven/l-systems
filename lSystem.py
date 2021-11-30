@@ -17,7 +17,7 @@ def runLsystem(allArguments=sys.argv):
     main loop of the program
     """
     
-    configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig = processCommandlineArguments(allArguments)
+    configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig, useWebsite = processCommandlineArguments(allArguments)
     
     if useRandomConfig == True:
         configFilename = generateRandomConfig()
@@ -39,7 +39,14 @@ def runLsystem(allArguments=sys.argv):
     
     if exportImageName != None:
         exportImage(screen, exportImageName, turtlePosition, configFilename, iterations)
+<<<<<<< Updated upstream
         
+=======
+    if useWebsite:
+        transform()
+        updateWebsite()
+
+>>>>>>> Stashed changes
     if closeAfterDrawing == False:
         input("Press enter to exit...")
  
