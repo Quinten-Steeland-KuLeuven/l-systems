@@ -33,14 +33,9 @@ def getConfigFilename(nameToCheck):
     
     if userInput != "":
         for location in locations:
-            if os.path.exists(location + userInput + ".json"):
-                configFilename = os.path.abspath(location + userInput + ".json")
-                print("Using config file at", configFilename)
-                break 
-            elif os.path.exists(location + userInput):
-                configFilename = os.path.abspath(location + userInput)
-                print("Using config file at", configFilename)
-                break 
+            returnPathIfJsonExists(location, userInput)
+            if configFilename is not None:
+                break
             
         if configFilename == None: 
             print("Config file not found, please check it is placed in the 'config_file' folder.")
@@ -87,3 +82,14 @@ def getIterations():
     print(userInput, "iteration(s) will be made.")  
      
     return userInput 
+
+def returnPathIfJsonExists(path, filename):
+    if os.path.exists(path + filename + ".json"):
+        fullPath = os.path.abspath(path + filename + ".json")
+        print("Using config file at", configFilename)
+        
+    elif os.path.exists(path + filename):
+        fullPath = os.path.abspath(path + filename)
+        print("Using config file at", configFilename)
+    return fullPath
+        

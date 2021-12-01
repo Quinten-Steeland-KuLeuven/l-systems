@@ -7,14 +7,14 @@ def processCommandlineArguments(allArguments):
     
     helpMessage = """
     All commandline options:
-    -h  or  --help                                  Displays help.
-    -e  or  --export <filename>                     Exports the turtle drawing to a file.
-    -c  or  --config <name of the configfile>       Used to give the config file name to the program.
-    -i  or  --iterations [amount]                   Used to give the amount of iterations to the program.
-    -sd or  --show_draw_process                     Use this flag to see the turtle move.
-    -np or  --no_progress_bar                       Use this flag if you want no progressbar (e.g. for speed).
-    -ca or  --close_after_drawing                   Exit immediately after drawing.
-    -rc or  --random_config                         Generate a random l-System
+    -h  or  --help                          Displays help.
+    -e  or  --export <filename>             Exports the turtle drawing to a file.
+    -c  or  --config <configfile name>      Used to give the config file name to the program.
+    -i  or  --iterations [amount]           Used to give the amount of iterations to the program.
+    -sd or  --show_draw_process             Use this flag to see the turtle move.
+    -np or  --no_progress_bar               Use this flag if you want no progressbar (e.g. for speed).
+    -ca or  --close_after_drawing           Exit immediately after drawing.
+    -rc or  --random_config                 Generate a random l-System
     """
     
     counter = 0

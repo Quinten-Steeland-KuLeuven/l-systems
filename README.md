@@ -55,9 +55,30 @@ In the project folder, run:
 ```
 docker build -t l-systems .
 ```
+--------------------------------
+If you get the following error:
+```
+Got permission denied while trying to connect to the Docker daemon socket at unix:///var/run/docker.sock: Post "http://.............": dial unix /var/run/docker.sock: connect: permission denied
+```
+Run:
+```
+sudo chmod 666 /var/run/docker.sock
+```
+If you get the following error:
+```
+_tkinter.TclError: couldn't connect to display
+```
+run
+```
+sudo apt-get install x11-xserver-utils
+
+xhost +
+```
+--------------------------------
+
 To run the docker file:
 ```
-docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$DISPLAY l-systems
+docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -p 5000:5000 l-systems [arguments]
 ```
 
 ## Config file format:
@@ -102,12 +123,12 @@ Translations: dict of the translations of all variables and constants
 
 ```
 All commandline options:
-    -h  or  --help                                  Displays help.
-    -e  or  --export <filename>                     Exports the turtle drawing to a file.
-    -c  or  --config <name of the configfile>       Used to give the config file name to the program.
-    -i  or  --iterations [amount]                   Used to give the amount of iterations to the program.
-    -sd or  --show_draw_process                     Use this flag to see the turtle move.
-    -np or  --no_progress_bar                       Use this flag if you want no progressbar (e.g. for speed).
-    -ca or  --close_after_drawing                   Exit immediately after drawing.
-    -rc or  --random_config                         Generate a random l-System
+    -h  or  --help                          Displays help.
+    -e  or  --export <filename>             Exports the turtle drawing to a file.
+    -c  or  --config <configfile name>      Used to give the config file name to the program.
+    -i  or  --iterations [amount]           Used to give the amount of iterations to the program.
+    -sd or  --show_draw_process             Use this flag to see the turtle move.
+    -np or  --no_progress_bar               Use this flag if you want no progressbar (e.g. for speed).
+    -ca or  --close_after_drawing           Exit immediately after drawing.
+    -rc or  --random_config                 Generate a random l-System
 ```

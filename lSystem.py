@@ -48,6 +48,7 @@ def runLsystem(allArguments=sys.argv):
 
     if closeAfterDrawing == False:
         input("Press enter to exit...")
-    
-runLsystem()
+
+if __name__ == "__main__":
+    runLsystem()
 	
