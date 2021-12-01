@@ -87,9 +87,10 @@ def returnPathIfJsonExists(path, filename):
     if os.path.exists(path + filename + ".json"):
         fullPath = os.path.abspath(path + filename + ".json")
         print("Using config file at", fullPath)
+        return fullPath
         
     elif os.path.exists(path + filename):
         fullPath = os.path.abspath(path + filename)
         print("Using config file at", fullPath)
-    return fullPath
+        return fullPath
         
