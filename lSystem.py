@@ -15,21 +15,21 @@ from ls_website import updateWebsite
 
 from generateRandomConfig import generateRandomConfig
 
-def runLsystem(allArguments=sys.argv):
+def runLSystem(allArguments=sys.argv):
     """
     main loop of the program
     """
     
     configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig, useWebsite = processCommandlineArguments(allArguments)
     
-    if useRandomConfig == True:
-        configFilename = generateRandomConfig()
+    if useRandomConfig is not None:
+        configFilename = generateRandomConfig(useRandomConfig)
         print("Using random config", configFilename)
     
-    if configFilename == None:
+    if configFilename is None:
         configFilename = getConfigFilename(None)
     
-    if iterations == None:
+    if iterations is None:
         iterations = getIterations()
         
     variables, constants, axiom, rules, translations = getConfig(configFilename)
@@ -40,19 +40,22 @@ def runLsystem(allArguments=sys.argv):
     
     addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem)
     
-    if exportImageName != None:
+    if exportImageName is not None:
         exportImage(screen, exportImageName, turtlePosition, configFilename, iterations)
-
 
     if useWebsite:
         transform()
         updateWebsite()
 
-
-
-    if closeAfterDrawing == False:
-        input("Press enter to exit...")
+    if not closeAfterDrawing:
+        input("\nPress enter to exit...")
+        
+def runLSystemInLoop(listOfArguments):
+    
+    for i in range(listOfArguments[0]):
+        print(i)
+        runLSystem(listOfArguments)
 
 if __name__ == "__main__":
-    runLsystem()
+    runLSystem()
 	

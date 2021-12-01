@@ -2,8 +2,8 @@
 from ls_user_input import getConfigFilename
 
 def processCommandlineArguments(allArguments):
-    configFilename = iterations = exportImageName = None
-    showDrawProcess = noProgressbar = closeAfterDrawing = useRandomConfig = useWebsite= False
+    configFilename = iterations = exportImageName = useRandomConfig = None
+    showDrawProcess = noProgressbar = closeAfterDrawing = useWebsite= False
     
     helpMessage = """
     All commandline options:
@@ -30,7 +30,7 @@ def processCommandlineArguments(allArguments):
         elif arg == "--export" or arg == "-e":
             counter += 1
             try: arg = allArguments[counter]
-            except:
+            except IndexError:
                 exportImageName = ""
             if arg[0] == "-" or arg == "":
                 counter -= 1
@@ -41,27 +41,39 @@ def processCommandlineArguments(allArguments):
         elif arg == "--iterations" or arg == "-i":
             counter += 1
             try: arg = allArguments[counter]
-            except:
+            except IndexError:
                 print("Missing an argument.")
                 exit(0)
             if arg[0] == "-" or arg == "":
                 counter -= 1
             else:
                 try: iterations = int(arg)
-                except KeyError(): 
+                except KeyError: 
                     print("--iterations must be followed by a positive integer.")
                     exit(0)
                         
         elif arg == "--config" or arg == "-c":
             counter += 1
             try: arg = allArguments[counter]
-            except:
+            except IndexError:
                 print("Missing an argument.")
                 exit(0)
             if arg[0] == "-" or arg == "":
                 counter -= 1
             else:
                 configFilename = getConfigFilename(arg)
+                            
+        elif arg == "-rc" or arg == "--random_config":
+            useRandomConfig = "Default"
+            counter += 1
+            try: 
+                arg = allArguments[counter]
+            except IndexError:
+                useRandomConfig = "Default"
+            if arg[0] == "-" or arg == "":
+                counter -= 1
+            else:
+                useRandomConfig = arg
                 
         elif arg == "-sd" or arg == "--show_draw_process":
             showDrawProcess = True
@@ -71,9 +83,6 @@ def processCommandlineArguments(allArguments):
             
         elif arg == "-ca" or arg == "--close_after_drawing":
             closeAfterDrawing = True
-            
-        elif arg == "-rc" or arg == "--random_config":
-            useRandomConfig = True
 
         elif arg == "-uw" or arg == "--use_webiste":
             useWebsite = True

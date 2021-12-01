@@ -1,7 +1,6 @@
 #This is a test file
 #ignore
 
-from lSystem import runLsystem
-for i in range(250):
-    print(i)
-    runLsystem(["run", "-e", "-rc", "-i", "5", "-ca"])
+from lSystem import runLSystemInLoop
+
+runLSystemInLoop([250, "-e", "-rc", "-i", "5", "-ca"])

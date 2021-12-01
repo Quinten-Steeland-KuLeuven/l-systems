@@ -1,11 +1,52 @@
  {
-    "comment": ["If you want to make your own:",
+    "_comment": ["If you want to make your own:",
                 "copy this file, change the name and tweak the values.",
-                "only change these if you know what you are doing."],
+                "only change these if you know what you are doing.",
+                "Do not remove/rename Default.json"],
 
-    "characters": null,
+    "variables": null,
     "constants": null,
-    "colors": "random"
+    "variableVsConstantOdds": 0.5,
+    "colors": "random",
+    "instructions": null,
+    "instructionsOdds": null,
+    "usePushPop": true,
+    "usePushPopOdds": 0.5,
+    "pushOdds": 0.5,
 
+    "amountVariables": {
+        "min": 1,
+        "max": 24
+    },
+
+    "amountConstants": {
+        "min": 2,
+        "max": 16
+    },
+
+    "axiomLenght": {
+        "min": 1,
+        "max": 40
+    },
+
+    "ruleLenght": {
+        "min": 1,
+        "max": 16
+    },
+
+    "translationLenght": {
+        "min": 1,
+        "max": 7
+    },
+
+    "amountMove": {
+        "min": 1,
+        "max": 50
+    },
+
+    "amountAngle": {
+        "min": -360,
+        "max": 360
+    }
 
  }
