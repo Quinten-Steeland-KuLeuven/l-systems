@@ -131,4 +131,5 @@ All commandline options:
     -np or  --no_progress_bar               Use this flag if you want no progressbar (e.g. for speed).
     -ca or  --close_after_drawing           Exit immediately after drawing.
     -rc or  --random_config                 Generate a random l-System
+    -uw or  --use_website                   Updates the website to the latest l-system
 ```
