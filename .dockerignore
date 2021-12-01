@@ -1,1 +1,4 @@
-./Images/*
+./Images/*.eps
+./Images/*.ps
+./Images/*.pdf
+./Images/*.svg

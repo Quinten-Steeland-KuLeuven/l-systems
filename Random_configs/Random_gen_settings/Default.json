@@ -1,1 +1,11 @@
- 
+ {
+    "comment": ["If you want to make your own:",
+                "copy this file, change the name and tweak the values.",
+                "only change these if you know what you are doing."],
+
+    "characters": null,
+    "constants": null,
+    "colors": "random"
+
+
+ }

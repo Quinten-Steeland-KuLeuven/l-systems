@@ -5,27 +5,52 @@ import sys
 
 from ls_json import readJsonFile
 from ls_checks import getAllValidColors
+from ls_user_input import returnPathIfJsonExists
 
 """ 
 generate random config file for lSystem
 Quick and dirty, not final
 """
 
-def generateRandomConfig():
-    filename, config = generateConfig()
+#TODO not finished
+
+def generateRandomConfig(settingsFilename=None):
+    filename, config = generateConfig(settingsFilename)
     return filename
 
-def main():
+def main(settingsFilename=None):
     
-    filename, config = generateConfig()
+    filename, config = generateConfig(settingsFilename)
     
     print(config)
     print("Done:", filename)
 
-def generateConfig():
+def generateConfig(settingsFilename):
+    path = None
+    if settingsFilename is None:
+        path = "./Random_configs/Random_gen_settings/Default.json"
+    else:
+        path = returnPathIfJsonExists("./Random_configs/Random_gen_settings/", settingsFilename)
+    
+    if path is None:
+        print("Error: settings file not found.")
+        exit(0)
+        
+    settings = readJsonFile(path)
+    
+    if settings.get("characters") is None:
+        availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+    else:
+        availableCharacters = settings.get("characters")
+    
+    if settings.get("constants") is None:
+        availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","[","<",">","/","\\","`","?","{","}","0","1","2","3","4","5","6","7","8","9",":",";","º","£","€","¿","¡","«","»","×","±","÷","²","¦","¢","¥","§"]
+    else:
+        availableCharacters = settings.get("constants")
+    
     filename = "./Random_configs/C_" + datetime.datetime.now().isoformat(sep="T",timespec='seconds') + ".json"
-    availableCharacters = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-    availableConstants = ["+","-","|",",",".","!","@","#","$","%","^","&","*","=","_","~","[","<",">","/","\\","`","?","{","}","0","1","2","3","4","5","6","7","8","9",":",";","º","£","€","¿","¡","«","»","×","±","÷","²","¦"]
+    
+    
     availableOptions = ["angle","draw","forward","color","nop"]
     availableColors = getAllValidColors()
     """ #availableColors = ["yellow", "gold", "orange", "red",
@@ -157,6 +182,9 @@ def generateTranslation(chara, availableOptions, availableColors):
                 if previous == "color" or previous == "angle" or previous == "forward" or previous == "draw":
                     index += 1
             translation.insert(index, "pop")
+            
+    if len(translation) > MAX_ITEMS_PER_TRANSLATION and "nop" in translation:
+        translation.remove("nop")
             
     return translation
 

@@ -18,4 +18,8 @@ RUN pip install -r requirements.txt
 
 COPY . /l-systems
 
-CMD [ "/usr/bin/python3", "lSystem.py" ]
+CMD ["chmod", "666", "/*"]
+
+#CMD [ "/usr/bin/python3", "lSystem.py" ]
+
+ENTRYPOINT ["python3", "lSystem.py"]
