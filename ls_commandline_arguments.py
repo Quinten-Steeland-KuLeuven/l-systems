@@ -3,7 +3,7 @@ from ls_user_input import getConfigFilename
 
 def processCommandlineArguments(allArguments):
     configFilename = iterations = exportImageName = None
-    showDrawProcess = noProgressbar = closeAfterDrawing = useRandomConfig = False
+    showDrawProcess = noProgressbar = closeAfterDrawing = useRandomConfig = useWebsite= False
     
     helpMessage = """
     All commandline options:
@@ -15,6 +15,7 @@ def processCommandlineArguments(allArguments):
     -np or  --no_progress_bar               Use this flag if you want no progressbar (e.g. for speed).
     -ca or  --close_after_drawing           Exit immediately after drawing.
     -rc or  --random_config                 Generate a random l-System
+    -uw or  --use_website                            Updates the website to the latest l-system
     """
     
     counter = 0
@@ -73,10 +74,16 @@ def processCommandlineArguments(allArguments):
             
         elif arg == "-rc" or arg == "--random_config":
             useRandomConfig = True
-            
+
+        elif arg == "-uw" or arg == "--use_webiste":
+            useWebsite = True
+
+        elif useWebsite and exportImageName == None:
+            exportImageName = ""
+
         else:
             print(f"Unknown argument: '{arg}'  Use --help for help.")
             exit(0)
     
-    return configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig
+    return configFilename, iterations, exportImageName, showDrawProcess, noProgressbar, closeAfterDrawing, useRandomConfig, useWebsite
    
