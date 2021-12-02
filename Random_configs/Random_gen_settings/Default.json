@@ -40,7 +40,7 @@
     },
 
     "amountMove": {
-        "min": 1,
+        "min": -50,
         "max": 50
     },
 
