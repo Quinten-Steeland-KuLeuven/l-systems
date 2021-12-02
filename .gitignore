@@ -156,5 +156,3 @@ Random_configs/*.json
 #python virtual enviroment 
 lSystem-venv/
 
-#test file
-loop.py
