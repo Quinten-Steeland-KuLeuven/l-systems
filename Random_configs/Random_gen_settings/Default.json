@@ -8,8 +8,8 @@
     "constants": null,
     "variableVsConstantOdds": 0.5,
     "colors": "random",
-    "instructions": null,
-    "instructionsOdds": null,
+    "instructions": ["draw", "color", "angle", "forward", "nop"],
+    "instructionsOdds": [0.35, 0.25, 0.225, 0.125, 0.05],
     "usePushPop": true,
     "usePushPopOdds": 0.5,
     "pushOdds": 0.5,
@@ -30,13 +30,13 @@
     },
 
     "ruleLenght": {
-        "min": 1,
+        "min": 2,
         "max": 16
     },
 
     "translationLenght": {
-        "min": 1,
-        "max": 7
+        "min": 2,
+        "max": 8
     },
 
     "amountMove": {

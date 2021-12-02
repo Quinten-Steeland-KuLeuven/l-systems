@@ -52,7 +52,7 @@ def generateConfig(settingsFilename):
     if settings.get("instructionsOdds") is None:
         instructionsOdds = [1/len(instructions)]*len(instructions)
     else:
-        instructionsOdds = settings.get("instrucionsOdds")
+        instructionsOdds = settings.get("instructionsOdds")
         
     if settings.get("colors") is None or settings.get("colors").lower() == "random":
         useColors = "random"
