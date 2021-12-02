@@ -119,162 +119,6 @@ def generateConfig(settingsFilename):
     saveToFile(filename, config)
     
     return filename, config
-    
-    """             #availableColors = ["yellow", "gold", "orange", "red",
-                       "maroon", "violet", "magenta", "purple",
-                       "navy", "blue", "skyblue", "cyan",
-                       "turquoise", "lightgreen", "green", "darkgreen",
-                       "chocolate", "brown", "black", "gray"] 
-    global MAX_AMOUNT_MOVE
-    global MAX_ITEMS_PER_TRANSLATION
-    global MAX_LEN_RULES
-    MAX_LEN_RULES = (5*(len(availableCharacters)+len(availableConstants))//12)+1
-    MAX_AMOUNT_MOVE = 30
-    MAX_ITEMS_PER_TRANSLATION = 7
-    
-
-    
-    
-
-    AmountCharacters = randint(1,24)
-    AmountConstants = randint(2, 16)
-
-    selectedCharacters = []
-    selectedConstants = []
-
-    counter = 0
-    while counter < AmountCharacters:
-        pick = randint(0, len(availableCharacters)-1)
-        selectedCharacters += availableCharacters[pick]
-        availableCharacters.pop(pick)
-        counter += 1
-        
-    counter = 0
-    while counter < AmountConstants:
-        pick = randint(0, len(availableConstants)-1)
-        selectedConstants += availableConstants[pick]
-        availableConstants.pop(pick)
-        counter += 1
-    
-    
-
-    rules = dict()
-
-    for chara in selectedCharacters:
-        rules[chara] = generateRule(selectedCharacters,selectedConstants)
-        
-    translations = dict()
-        
-    for chara in selectedCharacters:
-        translations[chara] = generateTranslation(chara, availableInstructions, availableColors)
-    
-    for chara in selectedConstants:
-        translations[chara] = generateTranslation(chara, availableInstructions, availableColors)
-        
-    if "[" in selectedConstants:
-        translations["]"] = generateTranslation(chara, availableInstructions, availableColors)
-        selectedConstants.append("]")
-    
-    config = dict()
-    
-    config["variables"] = selectedCharacters
-    config["constants"] = selectedConstants
-    config["axiom"] = generateAxiom(selectedCharacters, selectedConstants)
-    config["rules"] = rules
-    config["translations"] = translations
-    
-    with open(filename, "w") as configFile:
-        json.dump(config, configFile)
-        configFile.close()
-    
-    return filename, config
-
-def generateRule(selectedCharacters,selectedConstants):
-    rule = []
-    while rule == []:
-        amount = randint(0, MAX_LEN_RULES)
-        for i in range(amount):
-            if randint(0, 1) == 1:
-                pick = randint(0, len(selectedCharacters)-1)
-                rule += selectedCharacters[pick]
-            else:
-                pick = randint(0, len(selectedConstants)-1)
-                rule += selectedConstants[pick]
-        
-        if rule != []:       
-            for count, chara in enumerate(rule):
-                if chara == "[":
-                    pick = randint(count+1, len(rule))
-                    rule.insert(pick, "]")
-               
-    strRule = "".join(rule)
-    strRule = strRule.replace("[]", "")
-    return strRule
-
-def generateTranslation(chara, availableOptions, availableColors):
-    translation = []
-    while translation == []:
-               
-        counter = 0
-        amount = randint(1, MAX_ITEMS_PER_TRANSLATION)
-        while counter < amount:
-            pick = randint(0, len(availableOptions)-1)
-            if availableOptions[pick] != "nop":
-                translation.append(availableOptions[pick])
-            else: 
-                if "nop" not in translation:
-                    translation.append(availableOptions[pick])
-                else:
-                    amount += 1
-            if translation[-1] == "color":
-                translation.append(pickRandomColor(availableColors))
-            elif translation[-1] == "angle":
-                translation.append(randint(-359, 359))
-            elif translation[-1] == "forward" or translation[-1] == "draw":
-                translation.append(randint(-MAX_AMOUNT_MOVE, MAX_AMOUNT_MOVE))
-    
-            counter += 1
-        
-        if chara == "[":
-            index = randint(0, len(translation)-1)
-            if index != 0:
-                previous = translation[index-1]
-                if previous == "color" or previous == "angle" or previous == "forward" or previous == "draw":
-                    index += 1
-            translation.insert(index, "push")
-        elif chara == "]":
-            index = randint(0, len(translation)-1)
-            if index != 0:
-                previous = translation[index-1]
-                if previous == "color" or previous == "angle" or previous == "forward" or previous == "draw":
-                    index += 1
-            translation.insert(index, "pop")
-            
-    if len(translation) > MAX_ITEMS_PER_TRANSLATION and "nop" in translation:
-        translation.remove("nop")
-            
-    return translation
-
-def pickRandomColor(availableColors):
-    pick = randint(0, len(availableColors)-1)
-    return availableColors[pick]
-
-def generateAxiom(selectedCharacters,selectedConstants):
-    axiom = ""
-    amount = randint(0, (len(selectedCharacters)+len(selectedConstants)))
-    
-    pick = randint(0, len(selectedCharacters)-1)
-    axiom += selectedCharacters[pick]
-    for i in range(amount):
-        if randint(0, 1) == 1:
-            pick = randint(0, len(selectedCharacters)-1)
-            axiom += selectedCharacters[pick]
-        else:
-            pick = randint(0, len(selectedConstants)-1)
-            axiom += selectedConstants[pick]
-                
-    return axiom """
-
 
 def generateRandomColor():
     return "#%06x" % randint(0, 0xFFFFFF)
@@ -302,12 +146,14 @@ def generateRule(selectedVariables,selectedConstants,variableVsConstantOdds,rule
                 pick = randint(0, len(selectedConstants)-1)
                 rule += selectedConstants[pick]
         
-        if rule != []:       
-            for count, chara in enumerate(rule):
-                if chara == "[":
+        if rule != []: 
+            count = 0
+            while count < len(rule):
+                if rule[count] == "[":
                     pick = randint(count+1, len(rule))
                     rule.insert(pick, "]")
-               
+                count += 1
+             
     strRule = "".join(rule)
     while "[]" in strRule:
         strRule = strRule.replace("[]", "")
@@ -319,11 +165,11 @@ def generateTranslation(instructions, instructionsOdds, useColors, amountMove, a
     while translation == []:
         for i in range(lenght):
             
-            if chara == "[" and uniform(0, lenght) <= 1/lenght:
+            if chara == "[" and uniform(0, lenght) <= 1/lenght and "push" not in translation:
                 translation.append("push")
                 i += 1
                 
-            elif chara == "]" and uniform(0, lenght) <= 1/lenght:
+            elif chara == "]" and uniform(0, lenght) <= 1/lenght and "pop" not in translation:
                 translation.append("pop")
                 i += 1
                 
@@ -366,17 +212,31 @@ def generateTranslation(instructions, instructionsOdds, useColors, amountMove, a
     
     return translation
 
-def generateAxiom(selectedVariables, selectedConstants, lenght, variableVsConstantOdds):
-    axiom = ""
+def generateAxiom(variablesList, constantsList , lenght, variableVsConstantOdds):
+    axiom = []
+    
+    if "]" in constantsList:
+        constantsList.remove("]")
+    
     for i in range(lenght):
         if uniform(0, 1) <= variableVsConstantOdds:
-            pick = randint(0, len(selectedVariables)-1)
-            axiom += selectedVariables[pick]
+            pick = randint(0, len(variablesList)-1)
+            axiom.append(variablesList[pick])
         else:
-            pick = randint(0, len(selectedConstants)-1)
-            axiom += selectedConstants[pick]
-    return axiom
-
+            pick = randint(0, len(constantsList)-1)
+            axiom.append(constantsList[pick])
+    
+    count = 0   
+    while count < len(axiom):
+        if axiom[count] == "[":
+            pick = randint(count+1, len(axiom))
+            axiom.insert(pick, "]")
+        count += 1
+        
+    strAxiom = "".join(axiom)
+    while "[]" in strAxiom:
+        strAxiom = strAxiom.replace("[]", "")
+    return strAxiom
      
 def addUpOdds(listOfOdds):
     for i in range(1,len(listOfOdds)):
