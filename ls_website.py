@@ -1,6 +1,10 @@
+#for running web server
 from flask import Flask
 
 def updateWebsite():
+	"""
+	function that sets up and runs a website displaying the most recent l-system
+	"""
 	app = Flask(__name__)
 	file1 = open("History.txt","r")
 	for line in file1:

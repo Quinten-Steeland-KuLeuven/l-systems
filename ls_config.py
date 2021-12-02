@@ -3,6 +3,20 @@ from ls_checks import checkAxiom, checkRules, checkTranslations, checkType
 from ls_json import readJsonFile
 
 def getConfig(configFilename):
+    """
+    function that gets all data out of a configfile
+
+    Parameters
+    ----------
+    configFilename : str
+        path to the configfile
+
+    Returns
+    -------
+    tuple
+        variables, constants, axiom, rules, translations
+        list,      list,      str,   dict,  dict
+    """    
     configDict = readJsonFile(configFilename)
     
     axiom = getAxiomFromConfig(configDict)
@@ -25,7 +39,7 @@ def getAxiomFromConfig(configDict):
 
     Parameters
     ----------
-    config : dict
+    configDict : dict
         config json file opened with json.load
 
     Returns
@@ -74,7 +88,7 @@ def getTranslationsFromConfig(configDict):
 
     Parameters
     ----------
-    config : dict
+    configDict: dict
         config json file opened with json.load
 
     Returns
@@ -97,6 +111,23 @@ def getTranslationsFromConfig(configDict):
     return translations
 
 def getVariablesConstantsFromRulesTranslations(rules, translations):
+    """
+    function that gets the variables and constants from the rules and translations
+    this is possible because only variables have a rule and constants don't
+
+    Parameters
+    ----------
+    rules : dict    
+        dict of rules
+    translations : dict
+        dict of translations
+
+    Returns
+    -------
+    tuple
+        variables, constants
+        list,      list
+    """    
     
     variables = list(rules.keys())
 

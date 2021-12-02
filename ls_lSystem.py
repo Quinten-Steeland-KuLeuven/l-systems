@@ -1,20 +1,24 @@
 def generateLSystem(axiom, rules, translations, iterations):
     """
-    generates a basic l system from the config for a certain amount of iterations
+    function that generates an l-system for x iterations based on an axiom, rules and translations
 
     Parameters
     ----------
-    variables, constants, axiom, rules, translations : Tuple
-        Tuple of: list,      list,      str,   dict,  dict
-                  variables, constants, axiom, rules, translations
+    axiom : str
+        the axiom
+    rules : dict
+        dict of rules
+    translations : dict
+        dict of translations
     iterations : int
-        amount of iterations that need to be made
-        
+        amount of iterations
+
     Returns
     -------
     str
-        full string of the l-system after all iterations
-    """
+        the output l-system after x iterations
+    """    
+    
     currentString = axiom 
     
     print("Generating l-system...")

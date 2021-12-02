@@ -1,9 +1,32 @@
-
+#for checking if a hex color is valid
 import re
 
+#to read a json file
 from ls_json import readJsonFile
 
 def checkAxiom(variables, constants, axiom, rules, translations):
+    """
+    function that checks if an axiom is valid
+
+
+    Parameters
+    ----------
+    variables : list
+        list of variables
+    constants : list
+        list of constants
+    axiom : str
+        the axiom
+    rules : dict
+        dict of rules
+    translations : dict 
+        dict of translation
+
+    Returns
+    -------
+    str
+        the axiom if it is valid
+    """     
     axiom = checkType(axiom, str)
     for chara in axiom:
         if chara not in translations.keys():
@@ -13,6 +36,27 @@ def checkAxiom(variables, constants, axiom, rules, translations):
     return axiom
     
 def checkRules(variables, constants, axiom, rules, translations):
+    """
+    function that checks if the rules are valid
+
+    Parameters
+    ----------
+    variables : list
+        list of variables
+    constants : list
+        list of constants
+    axiom : str
+        the axiom
+    rules : dict
+        dict of rules
+    translations : dict 
+        dict of translation
+
+    Returns
+    -------
+    dict
+        dict of rules if they are valid
+    """    
     for key, rule in rules.items():
         
         if len(key) != 1:
@@ -48,10 +92,30 @@ def checkRules(variables, constants, axiom, rules, translations):
     return rules
 
 def checkTranslations(variables, constants, axiom, rules, translations):
+    """
+    function that checks if the translations are valid
+
+    Parameters
+    ----------
+    variables : list
+        list of variables
+    constants : list
+        list of constants
+    axiom : str
+        the axiom
+    rules : dict
+        dict of rules
+    translations : dict 
+        dict of translation
+
+    Returns
+    -------
+    dict
+        dict of translations if they are valid
+    """    
+    
     listOfValidTranslations = ["angle", "draw", "forward", "color", "move", "push", "pop", "nop"]
     listOfValidColors = getAllValidColors()
-    
-    
     
     for key, translation in translations.items():
       
@@ -59,22 +123,7 @@ def checkTranslations(variables, constants, axiom, rules, translations):
             print(f"Error: {key} must be lenght of 1 but has a lenght of {len(key)}.")
             exit(0)
         
-        """ if type(key) is not str:
-            try:
-                print(f"Warning: trying to change '{key}' from '{type(key).__name__}' to 'str'.")
-                key = str(key)
-            except ValueError:
-                print(f"Error: '{key}' must be a str.")
-                exit(0) """
         key = checkType(key, str)
-        
-        """ if type(translation) is not list:
-            try:
-                print(f"Warning: trying to change '{translation}' from '{type(translation).__name__}' to 'list'.")
-                translation = list(translation)
-            except ValueError:
-                print(f"Error: '{translation}' must be a list.")
-                exit(0) """
         translation = checkType(translation, list)
                 
         try:
@@ -92,8 +141,6 @@ def checkTranslations(variables, constants, axiom, rules, translations):
         while counter < len(translation):
             item = translation[counter]
             
-            
-            
             if type(item) is not int and type(item) is not float and item not in listOfValidTranslations:
                 print(f"Warning: '{item}' is not a valid translation, it will be ignored.")
                 
@@ -103,14 +150,7 @@ def checkTranslations(variables, constants, axiom, rules, translations):
                 except IndexError:
                     print(f"Error: '{item}' must be followed by an int or a float.")
                     exit(0)
-                    
-                """ if type(nextTranslation) is not float and type(nextTranslation) is not int:
-                    try:
-                        print(f"Warning: trying to change '{nextTranslation}' from '{type(nextTranslation).__name__}' to 'float'.") 
-                        translation[counter+1] = float(nextTranslation)
-                    except (ValueError, TypeError):
-                        print(f"Error: '{item}' must be followed by an int or a float, not '{nextTranslation}'.")
-                        exit(0) """
+                   
                 translation[counter+1] = checkType(nextTranslation, float, int)
                 counter += 1
                         
@@ -120,14 +160,7 @@ def checkTranslations(variables, constants, axiom, rules, translations):
                 except IndexError:
                     print(f"Error: '{item}' must be followed by a color; name or hex-code.")
                     exit(0)    
-                    
-                """ if type(nextTranslation) is not str:
-                    try:
-                        print(f"Warning: trying to change '{nextTranslation}' from '{type(nextTranslation).__name__}' to 'str'.") 
-                        translation[counter+1] = str(nextTranslation)
-                    except ValueError:
-                        print(f"Error: '{item}' must be followed by a str, not '{nextTranslation}'.")
-                        exit(0) """
+                
                 translation[counter+1] = checkType(nextTranslation, str)
                 
                 nextTranslation = translation[counter+1]
@@ -144,6 +177,14 @@ def checkTranslations(variables, constants, axiom, rules, translations):
     return translations
 
 def getAllValidColors():
+    """
+    function that gets all valid colors stored in valid_colors.json
+
+    Returns
+    -------
+    list
+        list of all valid colors
+    """    
     try:
         content = readJsonFile("valid_colors.json")
     except FileNotFoundError:
@@ -153,9 +194,42 @@ def getAllValidColors():
     return list(content.get("colors"))
 
 def checkIfHexColorIsValid(hexcode):
+    """function that checks if a hexcode is a valid hex color code
+
+    Parameters
+    ----------
+    hexcode : str
+        hexcode of color to check
+
+    Returns
+    -------
+    None
+        if color is invalid
+    not None
+        if color is valid
+    """    
     return re.search(r"^#[0-9A-Fa-f]{6}$", hexcode) 
 
 def checkType(item, targetType, otherAllowedType=None):
+    """
+    function that checks if the type of an input variable is the same as one type
+                         or if the type of the input is either one type or another type
+    if it's not the correct type, try to change the type
+
+    Parameters
+    ----------
+    item : any
+        value that needs to be check for it's type
+    targetType : type
+        type to check for
+    otherAllowedType : type, optional
+        other type to check for, by default None
+
+    Returns
+    -------
+    type(targetType)
+        returns the item in the type of targetType
+    """
     if otherAllowedType is None:
         otherAllowedType = targetType
     

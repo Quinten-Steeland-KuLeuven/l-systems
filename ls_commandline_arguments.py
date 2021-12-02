@@ -2,6 +2,23 @@
 from ls_user_input import getConfigFilename
 
 def processCommandlineArguments(allArguments):
+    """
+    function that processes commandline arguments
+
+    Parameters
+    ----------
+    allArguments : list
+        list of arguments
+
+    Returns
+    -------
+    tuple
+        configFilename, iterations, exportImageName, showDrawProcess, useProgressbar, closeAfterDrawing, useRandomConfig, useWebsite, exportSvg
+        str             int         str              bool             bool            bool               bool             bool        bool
+        name of config file         name of export image              use a progressbar                  use a random config          also convert eps to svg
+                        amount of iterations         show the draw process            close after drawing                 use a website
+    """    
+    
     configFilename = iterations = exportImageName = useRandomConfig = useProgressbar = None
     showDrawProcess = closeAfterDrawing = useWebsite = exportSvg = False
     

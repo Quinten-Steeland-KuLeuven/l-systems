@@ -1,24 +1,68 @@
+#for writing timestamp to filename
 import datetime
+#for generating random int/intervals
 from random import randint, uniform
+#for writing to configfile
 import json
-import sys
 
+#for reading json file with settings
 from ls_json import readJsonFile
+#for getting all valid colors
 from ls_checks import getAllValidColors
+#for checking if a json file exists
 from ls_user_input import returnPathIfJsonExists
 
 def generateRandomConfig(settingsFilename=None):
+    """
+    function that is called by our main program, it generates a random config and returns its name
+
+    Parameters
+    ----------
+    settingsFilename : str, optional
+        name of custom settings file, by default None
+
+    Returns
+    -------
+    str
+        name of configfile
+    """
     filename, config = generateConfig(settingsFilename)
     return filename
 
 def main(settingsFilename=None):
+    """
+    this function is run if the program is run normally, it generates a random config and prints it and its name
+
+    Parameters
+    ----------
+    settingsFilename : str, optional
+        name of custom settings file, by default None
+    """
     
     filename, config = generateConfig(settingsFilename)
     
     print(config)
-    print("Done:", filename)
+    print("\nDone:", filename)
 
 def generateConfig(settingsFilename):
+    """
+    function that generates a valid random config based on parameters in a json file
+
+    Parameters
+    ----------
+    settingsFilename : str
+        name of settings file
+
+    Returns
+    -------
+    tuple
+        filename, config
+        str,      dict
+        filename:
+            name of file
+        config:
+            the config it generated
+    """
     path = None
     if settingsFilename is None:
         path = "./Random_configs/Random_gen_settings/Default.json"
@@ -76,6 +120,12 @@ def generateConfig(settingsFilename):
     translationLenght = settings.get("translationLenght")
     amountMove = settings.get("amountMove")
     amountAngle = settings.get("amountAngle")
+    
+    if amountVariables > len(availableVariables):
+        amountVariables = len(availableVariables)
+        
+    if amountConstants > len(availableConstants):
+        amountConstants = len(availableConstants)
         
     selectedVariables = pickAmountOfItemsFromList(availableVariables, randint(amountVariables.get("min"), min(amountVariables.get("max"), len(availableVariables))))
     selectedConstants = pickAmountOfItemsFromList(availableConstants, randint(amountConstants.get("min"), min(amountConstants.get("max"), len(availableConstants))))
@@ -121,9 +171,38 @@ def generateConfig(settingsFilename):
     return filename, config
 
 def generateRandomColor():
+    """
+    function that generates a random hex color code
+
+    Returns
+    -------
+    str
+        hex color code
+    """
     return "#%06x" % randint(0, 0xFFFFFF)
 
 def pickAmountOfItemsFromList(availableItemsList, amountToPick, returnFirstStr=False):
+    """
+    function that picks a certain amount of items from a list
+
+    Parameters
+    ----------
+    availableItemsList : list
+        list of items we can choose from
+    amountToPick : int
+        amount of items to pick
+    returnFirstStr : bool, optional
+        if true returns the first picked item, by default False
+
+    Returns
+    -------
+    if False:
+        list
+            list of selected items
+    if True:
+        str
+            first chosen item
+    """
     counter = 0
     selectedItems = []
     while counter < amountToPick:
@@ -131,11 +210,31 @@ def pickAmountOfItemsFromList(availableItemsList, amountToPick, returnFirstStr=F
         selectedItems += availableItemsList[pick]
         availableItemsList.pop(pick)
         counter += 1
-    if returnFirstStr:
-        return selectedItems[0]
+        if returnFirstStr:
+            return selectedItems[0]
     return selectedItems
 
 def generateRule(selectedVariables,selectedConstants,variableVsConstantOdds,ruleLenght):
+    """
+    function that generates a valid rule given certain parameters
+
+    Parameters
+    ----------
+    selectedVariables : list
+        list of variables to pick from
+    selectedConstants : list
+        list of constants to pick from
+    variableVsConstantOdds : float
+        chances for a variable over an constant
+           (e.g. 0.75 means on avarage 3 variables and 1 constant)
+    ruleLenght : int
+        lenght of the rule
+
+    Returns
+    -------
+    str
+        str of the rule
+    """
     rule = []
     while rule == []:
         for i in range(ruleLenght):
@@ -160,6 +259,38 @@ def generateRule(selectedVariables,selectedConstants,variableVsConstantOdds,rule
     return strRule
 
 def generateTranslation(instructions, instructionsOdds, useColors, amountMove, amountAngle, variableVsConstantOdds, lenght, chara=None):
+    """
+    generates a valid translation given input parameters
+
+    Parameters
+    ----------
+    instructions : list
+        list of instructions
+    instructionsOdds : list
+        list of odds for each instruction
+    useColors : str or list
+        if list:
+            list of colors to pick from
+        if str is "random"
+            it will generate a random color
+    amountMove : dict
+        dict containing min and max amount of movement
+    amountAngle : dict
+        dict containting min and max amount of angle
+    variableVsConstantOdds : float
+        chances for a variable over an constant
+           (e.g. 0.75 means on avarage 3 variables and 1 constant)
+    lenght : int
+        lenght of the translation
+    chara : str, optional
+        chara for which the translation is being made, only used for constants "[" and "]" so, by default None
+
+    Returns
+    -------
+    list
+        translations list of instructions 
+            (e.g. ["draw", 10.42, "color", "#b00df1"])
+    """
     translation = []
     oddsList = addUpOdds(list(instructionsOdds))
     while translation == []:
@@ -213,6 +344,25 @@ def generateTranslation(instructions, instructionsOdds, useColors, amountMove, a
     return translation
 
 def generateAxiom(variablesList, constantsList , lenght, variableVsConstantOdds):
+    """
+    generates axiom based on variables and constants
+
+    Parameters
+    ----------
+    variablesList : list
+        list of variables
+    constantsList : list
+        list of constants
+    lenght : int
+        lenght of the axiom
+    variableVsConstantOdds : float
+        chances for a character to be a variable instead of an constant
+        
+    Returns
+    -------
+    str
+        the axiom
+    """
     axiom = []
     
     if "]" in constantsList:
@@ -239,18 +389,65 @@ def generateAxiom(variablesList, constantsList , lenght, variableVsConstantOdds)
     return strAxiom
      
 def addUpOdds(listOfOdds):
+    """
+    function that add's up the odss in a list of odds
+        (   e.g.
+            [0.35, 0.25, 0.225, 0.125, 0.05] is a list of odds (note: sum is 1 (=100%))
+            [0.35, 0.6,  0.825, 0.95,  1] is list of added odds
+        )
+
+    Parameters
+    ----------
+    listOfOdds : list
+        list of odds
+
+    Returns
+    -------
+    list    
+        list of added odds
+    """
     for i in range(1,len(listOfOdds)):
         listOfOdds[i] = round(listOfOdds[i] + listOfOdds[i-1],3)
     listOfOdds.insert(0, 0)
     return listOfOdds
 
 def chooseInstruction(instructions, listOfOdds):
+    """
+    function that chooses an instruction from a list of added odds
+        (   e.g.
+            [0.35, 0.25, 0.225, 0.125, 0.05] is a list of odds (note: sum is 1 (=100%))
+            [0.35, 0.6,  0.825, 0.95,  1] is list of added odds
+        )
+    
+
+    Parameters
+    ----------
+    instructions : list
+        list of instructions
+    listOfOdds : list
+        list of odds (added)
+
+    Returns
+    -------
+    str
+        instruction
+    """
     target = uniform(0, 1)
     for i in range(len(instructions)):
         if listOfOdds[i] <= target <= listOfOdds[i+1]:
             return instructions[i]
         
 def saveToFile(filename, config):
+    """
+    function that saves the random config to file
+
+    Parameters
+    ----------
+    filename : str name of the file
+        [description]
+    config : dict
+        dict of the config; contains all the info required to make an l-system
+    """
     with open(filename, "w") as writeFile:
         writeFile.writelines(json.dumps(config, ensure_ascii=False, sort_keys=False, indent=4))  
          
