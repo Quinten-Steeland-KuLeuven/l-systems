@@ -124,9 +124,10 @@ Translations: dict of the translations of all variables and constants
 ```
 All commandline options:
     -h  or  --help                                  Displays help.
-    -e  or  --export <filename>                     Exports the turtle drawing to a file.
     -c  or  --config <config filename>              Used to give the config file name to the program.
     -i  or  --iterations [amount]                   Used to give the amount of iterations to the program.
+    -e  or  --export <filename>                     Exports the turtle drawing to an eps file.
+    -s  or  --output_svg                            Convert the eps image from eps to svg.
     -sd or  --show_draw_process                     Use this flag to see the turtle move.
     -up or  --use_progress_bar                      Use this flag if you always want a progressbar.
     -np or  --no_progress_bar                       Use this flag if you want no progressbar (e.g. for speed).
