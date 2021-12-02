@@ -4,18 +4,21 @@ import os
 #import our cache functions
 from ls_cache import storeInCache, getFromCache
 
-
-
 def getConfigFilename(nameToCheck):
     """
     function that ask user for name of config file and checks if the file exists
 
+    Parameters
+    ----------
+    nameToCheck : str
+        name of the file to check 
+    
     Returns
     -------
     str
         full path of config file
     """
-    if nameToCheck == None:
+    if nameToCheck is None:
         userInput = input("Enter config file name: ")
     else: 
         userInput = nameToCheck
@@ -23,10 +26,10 @@ def getConfigFilename(nameToCheck):
     homePath = os.environ['HOME']
     
     locations = [
-                    "./Examples/", "./Config_files/", "./", homePath + "/", homePath + "/.lSystems/",
+                    "./Config_files/", "./", "./Examples/", homePath + "/", homePath + "/.lSystems/",
                     homePath + "/.lSystems/Config_files/", "./Random_configs/", "./Config_files/", homePath + "/.lSystems/config_files/",
                     "./random_configs/", "./Configs/","./configs/", homePath + "/l-systems/Config_files/",
-                    homePath + "./l-systems/config_files/"
+                    homePath + "./l-systems/config_files/", "/", ""
                 ]
     
     configFilename = None
@@ -37,7 +40,7 @@ def getConfigFilename(nameToCheck):
             if configFilename is not None:
                 break
             
-        if configFilename == None: 
+        if configFilename is None: 
             print("Config file not found, please check it is placed in the 'config_file' folder.")
             exit(0)
             
@@ -84,6 +87,21 @@ def getIterations():
     return userInput 
 
 def returnPathIfJsonExists(path, filename):
+    """
+    functions that returns a full path of a json file if it exists
+
+    Parameters
+    ----------
+    path : str
+        path to file to check
+    filename : str
+        name of file to check
+
+    Returns
+    -------
+    str
+        if file exists, returns full path
+    """    
     if os.path.exists(path + filename + ".json"):
         fullPath = os.path.abspath(path + filename + ".json")
         print("Using config file at", fullPath)

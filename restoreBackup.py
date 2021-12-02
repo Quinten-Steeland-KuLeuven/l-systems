@@ -46,6 +46,9 @@ def main():
         clearHistoryFile()
     
 def clearHistoryFile():
+    """
+    function that clears the history file
+    """    
     with open("History.txt", "w") as writeFile:
         writeFile.write("<timestamp>\t\t<variables>\t\t<constants>\t\t<axiom>\t\t<rules>\t\t<translations>\t\t<iterations>\t\t<resulting-string>")
 

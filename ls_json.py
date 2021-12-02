@@ -5,21 +5,18 @@ import os
 
 def readJsonFile(jsonFilename):
     """
-    function that gets everything out of a json file
+    function that reads the content of a json file
 
     Parameters
     ----------
-    configFilename : str
-        full path to the config file
+    jsonFilename : str
+        path to json file
 
     Returns
     -------
-    tuple
-    list, list, str, dict, dict
-
-    returns a tuple of:
-        variables, constants, axiom, rules, translations
-    """
+    dict
+        content of the file
+    """    
     if not os.path.exists(jsonFilename):
         print(f"Error: file '{jsonFilename}'' does not exist.")
         exit(0)
