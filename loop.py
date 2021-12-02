@@ -1,5 +1,4 @@
-#This is a test file
-#ignore
+#This is an example of how you can run the lSystem from another python file
 
 from lSystem import runLSystemInLoop
 

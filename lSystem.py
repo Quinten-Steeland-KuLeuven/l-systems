@@ -78,6 +78,7 @@ def runLSystem(allArguments=sys.argv):
 def runLSystemInLoop(listOfArguments):
     """
     function to run the program in a loop
+        (see loop.py for an example)
     
     Usage
     -----
