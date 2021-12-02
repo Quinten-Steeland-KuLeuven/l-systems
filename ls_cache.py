@@ -54,7 +54,7 @@ def checkIfCacheExists():
     function that checks of the cache file exists;
     if it does not exist, it makes one
     """
-    if os.path.exists("cache.json") == False:
+    if os.path.exists("cache.json") is False:
         cacheFile = open("cache.json", "w")
         cacheFile.write(str(dict()))
         cacheFile.close()

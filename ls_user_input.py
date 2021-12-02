@@ -18,7 +18,7 @@ def getConfigFilename(nameToCheck):
     str
         full path of config file
     """
-    if nameToCheck == None:
+    if nameToCheck is None:
         userInput = input("Enter config file name: ")
     else: 
         userInput = nameToCheck
@@ -40,7 +40,7 @@ def getConfigFilename(nameToCheck):
             if configFilename is not None:
                 break
             
-        if configFilename == None: 
+        if configFilename is None: 
             print("Config file not found, please check it is placed in the 'config_file' folder.")
             exit(0)
             

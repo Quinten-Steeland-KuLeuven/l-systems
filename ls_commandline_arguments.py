@@ -116,7 +116,7 @@ def processCommandlineArguments(allArguments):
             print(f"Unknown argument: '{arg}'  Use --help for help.")
             exit(0)
             
-    if useWebsite and exportImageName == None:
+    if useWebsite and exportImageName is None:
         exportImageName = ""
           
     if exportSvg:
