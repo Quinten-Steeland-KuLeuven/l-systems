@@ -1,0 +1,52 @@
+ {
+    "_comment": ["If you want to make your own:",
+                "copy this file, change the name and tweak the values.",
+                "only change these if you know what you are doing.",
+                "Do not remove/rename Default.json"],
+
+    "variables": null,
+    "constants": null,
+    "variableVsConstantOdds": 0.6,
+    "colors": "random",
+    "instructions": ["draw", "color", "angle", "forward", "nop"],
+    "instructionsOdds": [0.5, 0.3, 0.15, 0.05, 0.0],
+    "usePushPop": true,
+    "usePushPopOdds": 0.75,
+    "pushOdds": 0.4,
+
+    "amountVariables": {
+        "min": 4,
+        "max": 12
+    },
+
+    "amountConstants": {
+        "min": 2,
+        "max": 16
+    },
+
+    "axiomLenght": {
+        "min": 10,
+        "max": 20
+    },
+
+    "ruleLenght": {
+        "min": 4,
+        "max": 24
+    },
+
+    "translationLenght": {
+        "min": 1,
+        "max": 10
+    },
+
+    "amountMove": {
+        "min": -20,
+        "max": 40
+    },
+
+    "amountAngle": {
+        "min": -180,
+        "max": 360
+    }
+
+ }
