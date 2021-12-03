@@ -2,4 +2,4 @@
 
 from lSystem import runLSystemInLoop
 
-runLSystemInLoop([500, "-e", "-rc", "Custom003", "-i", "4", "-ca"])
+runLSystemInLoop([500, "-e", "-rc", "Custom005", "-i", "11", "-ca"])
