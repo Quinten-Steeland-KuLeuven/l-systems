@@ -12,6 +12,10 @@ Features:
 - docker
 - generate random l-systems
 
+Intended to be run on a unix os (preferably linux)
+
+Learn more about l-systems [here](https://en.wikipedia.org/wiki/L-system).
+
 ## Setup:
 
 Clone the Repo:
@@ -51,7 +55,8 @@ See section "Command line options"
 
 ## Docker:
 
-In the project folder, run:
+
+If you have installed docker, you can run the following commands in the project folder:
 ```
 docker build -t l-systems .
 ```
@@ -76,7 +81,7 @@ xhost +
 ```
 --------------------------------
 
-To run the docker file:
+To run the docker file itself, use:
 ```
 ./runDocker.sh [arguments]
 ```

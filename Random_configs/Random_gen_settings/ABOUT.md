@@ -1,0 +1,2 @@
+This folder is for storing the settings for the random config generator.
+Add your own ones here but be carefull, because these are not as thoroughly checked as the regular config files and bad input can crash the program.
