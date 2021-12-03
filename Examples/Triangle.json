@@ -8,6 +8,6 @@
 	"translations" : {
         "F": ["draw", 10],
         "+": ["angle", 120],
-        "-": ["angle", 120]
+        "-": ["angle", -120]
 	}
 }
