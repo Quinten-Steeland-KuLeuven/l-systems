@@ -301,6 +301,6 @@ def turtlePop(screen, turt, storage):
         turt.pencolor(storage[-1][2])
         storage.pop(-1)
         turt.pendown()
-    except:
+    except IndexError:
         print("Error: you can't pop more than you push")
         exit(0)

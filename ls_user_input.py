@@ -68,7 +68,7 @@ def getIterations():
         if userInput != "":
             try:
                 userInput = int(userInput)
-            except:
+            except ValueError:
                 print("Not an integer, iterations must be a positive integer.")
                 exit(0)
             
