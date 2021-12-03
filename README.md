@@ -28,6 +28,7 @@ source l-venv/bin/activate
 ```
 Install Packages:
 ```
+sudo apt install python3-pip
 pip install -r requirements.txt
 ```
 Install other Packages:
@@ -53,6 +54,7 @@ See section "Command line options"
 
 In the project folder, run:
 ```
+sudo apt-get install docker.io
 docker build -t l-systems .
 ```
 --------------------------------
