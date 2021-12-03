@@ -1,7 +1,7 @@
 from flask import Flask
 app = Flask(__name__)
 
-file1 = open("History.txt","r")
+file1 = open("./History/History.txt","r")
 
 for line in file1:
 	None

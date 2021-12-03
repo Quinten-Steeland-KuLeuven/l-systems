@@ -2,3 +2,7 @@
 ./Images/*.ps
 ./Images/*.pdf
 ./Images/*.svg
+
+./History/History.txt 
+
+./cache.json

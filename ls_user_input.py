@@ -46,7 +46,7 @@ def getConfigFilename(nameToCheck):
             
     else:
         configFilename = getFromCache("lastUsedConfigFile")
-        print("Using config file at", configFilename)
+        print(f"Using config file at {configFilename}")
     
     storeInCache("lastUsedConfigFile", configFilename)
 
@@ -82,7 +82,7 @@ def getIterations():
             
     storeInCache("lastUsedIterations", userInput)
         
-    print(userInput, "iteration(s) will be made.")  
+    print(f"{userInput} iteration(s) will be made.")  
      
     return userInput 
 
@@ -104,11 +104,11 @@ def returnPathIfJsonExists(path, filename):
     """    
     if os.path.exists(path + filename + ".json"):
         fullPath = os.path.abspath(path + filename + ".json")
-        print("Using config file at", fullPath)
+        print(f"Using config file at {fullPath}")
         return fullPath
         
     elif os.path.exists(path + filename):
         fullPath = os.path.abspath(path + filename)
-        print("Using config file at", fullPath)
+        print(f"Using config file at {fullPath}")
         return fullPath
         

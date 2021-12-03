@@ -39,7 +39,7 @@ def runLSystem(allArguments=sys.argv):
     #get config
     if useRandomConfig is not None:
         configFilename = generateRandomConfig(useRandomConfig)
-        print("Using random config", configFilename)
+        print(f"Using random config {configFilename}")
     
     if configFilename is None:
         configFilename = getConfigFilename(None)
@@ -96,8 +96,8 @@ def runLSystemInLoop(listOfArguments):
         a list of all the arguments with the first being the amount of loops
     """
     
-    for i in range(listOfArguments[0]):
-        print(i)
+    for counter in range(listOfArguments[0]):
+        print(counter)
         runLSystem(listOfArguments)
 
 if __name__ == "__main__":

@@ -121,11 +121,11 @@ def generateConfig(settingsFilename):
     amountMove = settings.get("amountMove")
     amountAngle = settings.get("amountAngle")
     
-    if amountVariables > len(availableVariables):
-        amountVariables = len(availableVariables)
+    if amountVariables.get("max") > len(availableVariables):
+        amountVariables["max"] = len(availableVariables)
         
-    if amountConstants > len(availableConstants):
-        amountConstants = len(availableConstants)
+    if amountConstants.get("max") > len(availableConstants):
+        amountConstants["max"] = len(availableConstants)
         
     selectedVariables = pickAmountOfItemsFromList(availableVariables, randint(amountVariables.get("min"), min(amountVariables.get("max"), len(availableVariables))))
     selectedConstants = pickAmountOfItemsFromList(availableConstants, randint(amountConstants.get("min"), min(amountConstants.get("max"), len(availableConstants))))

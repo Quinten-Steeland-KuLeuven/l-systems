@@ -9,8 +9,8 @@ def main():
         i += 1
         print(i,"\t",item)
         
-    print("0", "\t", "Clear current History.txt")
-    print("-1", "\t", "Backup and Clear current History.txt")
+    print("0", "\t", "Clear current ./History/History.txt")
+    print("-1", "\t", "Backup and Clear current ./History/History.txt")
         
     print(42*"-")
 
@@ -35,7 +35,7 @@ def main():
         with open(f"./History_backups/{targetFile}","r") as readFile:
             fileContent = readFile.readlines()
             
-        with open("History.txt", "w") as writeFile:
+        with open("./History/History.txt", "w") as writeFile:
             writeFile.writelines(fileContent)
             
     elif chosenIndex == 0:
@@ -49,7 +49,7 @@ def clearHistoryFile():
     """
     function that clears the history file
     """    
-    with open("History.txt", "w") as writeFile:
+    with open("./History/History.txt", "w") as writeFile:
         writeFile.write("<timestamp>\t\t<variables>\t\t<constants>\t\t<axiom>\t\t<rules>\t\t<translations>\t\t<iterations>\t\t<resulting-string>")
 
 

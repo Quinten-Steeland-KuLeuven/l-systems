@@ -6,7 +6,7 @@ def updateWebsite():
 	function that sets up and runs a website displaying the most recent l-system
 	"""
 	app = Flask(__name__)
-	file1 = open("History.txt","r")
+	file1 = open("./History/History.txt","r")
 	for line in file1:
 		None
 	listline = line.split("\t")
