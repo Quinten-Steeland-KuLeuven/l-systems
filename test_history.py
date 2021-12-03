@@ -53,15 +53,15 @@ def history_test_three(iterations, lSystem):
         "B": ["nop"]
     }
     
-    if os.path.exists("History.txt"):
-        with open("History.txt", "r") as readFile:
+    if os.path.exists("./History/History.txt"):
+        with open("./History/History.txt", "r") as readFile:
             content = readFile.readlines()
         
-        os.remove("History.txt")
+        os.remove("./History/History.txt")
     
         line, timestamp = addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem)
     
-        with open("History.txt", "w") as writeFile:
+        with open("./History/History.txt", "w") as writeFile:
             writeFile.writelines(content)
             
     else:

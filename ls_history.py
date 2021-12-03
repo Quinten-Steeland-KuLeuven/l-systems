@@ -7,7 +7,7 @@ from restoreBackup import clearHistoryFile
 
 def addToHistory(variables, constants, axiom, rules, translations, iterations, lSystem):
     """
-    function that saves the data* to a new line in the History.txt
+    function that saves the data* to a new line in the ./History/History.txt
     (*) data = timing, variables, constants, axiom, rules, translations, iterations and result-string
 
     Parameters
@@ -37,9 +37,9 @@ def addToHistory(variables, constants, axiom, rules, translations, iterations, l
     """
     timestamp = datetime.datetime.now().isoformat(sep=" ",timespec='seconds')
     
-    if not os.path.isfile("History.txt"):
+    if not os.path.isfile("./History/History.txt"):
         clearHistoryFile()
-    historyfile = open("History.txt", "a")
+    historyfile = open("./History/History.txt", "a")
         
     line = f"\n{timestamp}\t"
     
