@@ -140,7 +140,7 @@ This produces the following drawing for 4 iterations:
 
 Variation by Paul Bourke
 
-'''json
+```json
 {
     "variables": ["F"],
     "constants": ["+", "-"],
@@ -154,7 +154,7 @@ Variation by Paul Bourke
         "-": ["angle", -120]
 	}
 }
-'''
+```
 
 This produces the following drawing for 5 iterations:
 <img src="Triangle_5.svg">
