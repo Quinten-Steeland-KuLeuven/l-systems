@@ -28,7 +28,7 @@ python3 -m venv lSystem-venv
 ```
 Activate Virtual Environment:
 ```
-source l-venv/bin/activate
+source lSystem-venv/bin/activate
 ```
 Install Packages:
 ```
