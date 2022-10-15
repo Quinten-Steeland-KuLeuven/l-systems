@@ -136,4 +136,26 @@ This produces the following drawing for 4 iterations:
 
 <img src="QuadraticSnowflake_4.svg">
 
+## Triangle
+
+Variation by Paul Bourke
+
+```json
+{
+    "variables": ["F"],
+    "constants": ["+", "-"],
+    "axiom": "F+F+F",
+    "rules": {
+        "F": "F-F+F"
+	},
+	"translations" : {
+        "F": ["draw", 10],
+        "+": ["angle", 120],
+        "-": ["angle", -120]
+	}
+}
+```
+
+This produces the following drawing for 5 iterations:
+<img src="Triangle_5.svg">
 
