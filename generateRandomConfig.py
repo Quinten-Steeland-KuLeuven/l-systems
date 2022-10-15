@@ -207,7 +207,7 @@ def pickAmountOfItemsFromList(availableItemsList, amountToPick, returnFirstStr=F
     selectedItems = []
     while counter < amountToPick:
         pick = randint(0, len(availableItemsList)-1)
-        selectedItems += availableItemsList[pick]
+        selectedItems.append(availableItemsList[pick])
         availableItemsList.pop(pick)
         counter += 1
         if returnFirstStr:
